@@ -36,6 +36,10 @@ const List = {
                 List.getConsultListApi();
             }
         });
+        //excel download
+        $("#downloadExcelBtn").on("click", function () {
+            List.downloadExcel();
+        });
     },
     initContent: function () {
         DataSet.init();
@@ -51,8 +55,7 @@ const List = {
         DataSet.init();
         DatePicker.init($("#startDate, #endDate"));
     },
-
-    getConsultListApi: function () {
+    getSearchParams: function (type) {
         const channel = $("select[name=channel]").val();
         const consultType = $("select[name=consultType]").val();
         const deleted = false;
@@ -70,7 +73,8 @@ const List = {
         const startDate = DataTransform.stringToDate(
             $("input[name=startDate]").val()
         );
-        let params = {
+
+        params = {
             channel: channel || "",
             consultType: consultType || "",
             deleted,
@@ -85,16 +89,20 @@ const List = {
             size,
             startDate,
         };
+
         if ($("input[name=totalSearch]").is(":checked")) {
             //날짜무시 체크되어 있을 경우 startDate, endDate 삭제
             let { startDate, endDate, ...rest } = params;
             params = rest;
         }
-        console.log("============================seacrh param", params);
+        return params;
+    },
+
+    getConsultListApi: function () {
         $.ajax({
             method: "GET",
             url: `${API_URL}/consultation/v1/search`,
-            data: params,
+            data: List.getSearchParams(),
             dataType: "json",
             contentType: "application/json",
             async: false,
@@ -173,5 +181,52 @@ const List = {
             Number($("#curPage").val()),
             true
         );
+    },
+    downloadExcel: function () {
+        let baseUrl = `/consult/excel?token=${$("input[name=authCode]").val()}`;
+
+        //날짜무시 여부
+        const isDateRangeNull = $("input[name=totalSearch]").is(":checked");
+
+        const startDate = isDateRangeNull
+            ? ""
+            : DataTransform.stringToDate($("input[name=startDate]").val());
+        const endDate = isDateRangeNull
+            ? ""
+            : DataTransform.stringToDate($("input[name=endDate]").val());
+        const channel = $("select[name=channel]").val() || "";
+        const consultType = $("select[name=consultType]").val() || "";
+        const inType = $("select[name=inType]").val() || "";
+        const level1 = $("select[name=level1]").val() || "";
+        const level2 = $("select[name=level2]").val() || "";
+        const name = $("input[name=name]").val() || "";
+        const orderNo = $("input[name=orderNo]").val() || "";
+        const phone = $("input[name=phone]").val() || "";
+
+        let nameURL = `&name=${name}`;
+        let phoneURL = `&phone=${phone}`;
+        let startDateURL = `&startDate=${startDate}`;
+        let endDateURL = `&endDate=${endDate}`;
+        let orderNoURL = `&orderNo=${orderNo}`;
+        let channelURL = `&channel=${channel}`;
+        let inTypeURL = `&inType=${inType}`;
+        let consultTypeURL = `&consultType=${consultType}`;
+        let level1URL = `&level1=${level1 === "0" ? "" : level1}`;
+        let level2URL = `&level2=${level2 === "0" ? "" : level2}`;
+
+        let url =
+            baseUrl +
+            nameURL +
+            phoneURL +
+            startDateURL +
+            endDateURL +
+            orderNoURL +
+            channelURL +
+            inTypeURL +
+            consultTypeURL +
+            level1URL +
+            level2URL;
+
+        location.href = url;
     },
 };
