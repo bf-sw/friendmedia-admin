@@ -33,7 +33,10 @@ const Header = {
         }
     },
     logout: function () {
+        //로그아웃시 세션삭제, 자동로그인 삭제
         SessionStorage.deleteSessionStorage(DAEWONSHOP_LOGIN_INFO);
+        Cookie.deleteCookie("autoid");
+        Cookie.deleteCookie("autopw");
         location.href = "/login";
     },
 };
@@ -289,29 +292,36 @@ const Cookie = {
         }
         return "";
     },
-    deleteCookie: function () {
+    deleteCookie: function (type) {
         const expdate = new Date();
         expdate.setDate(expdate.getDate() - 1);
         document.cookie =
-            "daewonshop_saveid= " +
+            "daewonshop_" +
+            type +
+            "= " +
             "; expires=" +
             expdate.toGMTString() +
             "; path=/";
-        document.cookie =
-            "daewonshop_savetype= " +
-            "; expires=" +
-            expdate.toGMTString() +
-            "; path=/";
-        document.cookie =
-            "daewonshop_autoid= " +
-            "; expires=" +
-            expdate.toGMTString() +
-            "; path=/";
-        document.cookie =
-            "daewonshop_autopw= " +
-            "; expires=" +
-            expdate.toGMTString() +
-            "; path=/";
+        // document.cookie =
+        //     "daewonshop_saveid= " +
+        //     "; expires=" +
+        //     expdate.toGMTString() +
+        //     "; path=/";
+        // document.cookie =
+        //     "daewonshop_savetype= " +
+        //     "; expires=" +
+        //     expdate.toGMTString() +
+        //     "; path=/";
+        // document.cookie =
+        //     "daewonshop_autoid= " +
+        //     "; expires=" +
+        //     expdate.toGMTString() +
+        //     "; path=/";
+        // document.cookie =
+        //     "daewonshop_autopw= " +
+        //     "; expires=" +
+        //     expdate.toGMTString() +
+        //     "; path=/";
     },
 };
 
