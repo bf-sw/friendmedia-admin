@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/head.jsp" %>
 <!-- 개별 script -->
-<script src="/resources/js/list.js?v=20231026"></script>
+<script src="/resources/js/list.js?v=20231027"></script>
 <main class="list_page">
      <%@ include file="/WEB-INF/views/common/navbar.jsp" %>
      <section class="container">
@@ -143,9 +143,9 @@
                  <span
                      >검색결과(<em id="searchResultCount"></em>)</span
                  >
-                 <!-- <button type="button" id="downloadExcelBtn">
+                 <button type="button" id="downloadExcelBtn">
                      엑셀다운로드
-                 </button> -->
+                 </button>
              </div>
              <div class="search_result_table">
                  <input
