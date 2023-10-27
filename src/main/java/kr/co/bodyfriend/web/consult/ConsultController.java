@@ -2,6 +2,7 @@ package kr.co.bodyfriend.web.consult;
 
 import java.net.URI;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 
@@ -15,11 +16,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -88,35 +91,21 @@ public class ConsultController {
 			httpHeaders.setContentType(new MediaType(Consts.APPLICATION, Consts.JSON, Charset.forName(Consts.UTF_8)));
 			httpHeaders.set("Authorization", "Bearer " + params.get("token"));
 			
-			StringBuilder sb = new StringBuilder();
-			
-			sb.append(CommProperty.getProperty("friendmedia.api.url." + UtilManager.getSystemEnvironment()));
-			sb.append("?startDate=");
-			sb.append(params.get("startDate"));
-			sb.append("&endDate=");
-			sb.append(params.get("endDate"));
-			sb.append("&name=");
-			sb.append(params.get("name"));
-			sb.append("&phone=");
-			sb.append(params.get("phone"));
-			sb.append("&orderNo=");
-			sb.append(params.get("orderNo"));
-			sb.append("&channel=");
-			sb.append(params.get("channel"));
-			sb.append("&inType=");
-			sb.append(params.get("inType"));
-			sb.append("&consultType=");
-			sb.append(params.get("consultType"));
-			sb.append("&level1=");
-			sb.append(params.get("level1"));
-			sb.append("&level2=");
-			sb.append(params.get("level2"));
-			
-			URI uri = new URI(sb.toString());
+			UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(CommProperty.getProperty("friendmedia.api.url." + UtilManager.getSystemEnvironment()))
+			        .queryParam("startDate", params.get("startDate"))
+			        .queryParam("endDate", params.get("endDate"))
+			        .queryParam("name", params.get("name"))
+			        .queryParam("phone", params.get("phone"))
+			        .queryParam("orderNo", params.get("orderNo"))
+			        .queryParam("channel", params.get("channel"))
+			        .queryParam("inType", params.get("inType"))
+			        .queryParam("consultType", params.get("consultType"))
+			        .queryParam("level1", params.get("level1"))
+			        .queryParam("level2", params.get("level2"));
 			
 			RestTemplate restTemplate = new RestTemplate();
 			
-			RequestEntity<String> requestEntity = new RequestEntity<>(httpHeaders, HttpMethod.GET, uri);
+			RequestEntity<String> requestEntity = new RequestEntity<>(httpHeaders, HttpMethod.GET, uriComponentsBuilder.build().encode().toUri());
 			ResponseEntity<String> response = restTemplate.exchange(requestEntity, String.class);
 
 			if (!UtilManager.isEmptyOrNull(response) && HttpStatus.OK.equals(response.getStatusCode())) {
@@ -131,13 +120,14 @@ public class ConsultController {
 				
 				modelMap.put("excelData", excelData);
 				modelMap.put("title"	, "상담이력");
+				return "consultExcel";
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		LOGGER.info("[CONSULT][CONTROLLER][ConsultController][makeExcel][END]");
-		return "consultExcel";
+		return "";
 	}
 }
 
