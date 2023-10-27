@@ -27,14 +27,6 @@
 	<resources mapping="/images/**" location="/resources/images/*.*" />
 	<resources mapping="/config/**" location="/resources/config/*.*" />
 
-	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
-	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<beans:property name="prefix" value="/WEB-INF/views/" />
-		<beans:property name="suffix" value=".jsp" />
-	</beans:bean>
-	
-	<beans:bean id="beanNameViewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver"/>
-	
     <!-- interceptor -->
     <mvc:interceptors>
 		<mvc:interceptor>
@@ -42,6 +34,21 @@
 			<beans:bean class="kr.co.bodyfriend.common.Interceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>
+	
+	<beans:bean id="beanNameViewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver">
+        <beans:property name="order" value="0"/>
+    </beans:bean>
+    
+    <!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
+	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="prefix" value="/WEB-INF/views/" />
+		<beans:property name="suffix" value=".jsp" />
+		<beans:property name="order" value="1"></beans:property>
+	</beans:bean>
+	
+	<beans:bean id="consultExcel" class="kr.co.bodyfriend.web.consult.ConsultExcel"/>
+	
+	<beans:bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"/>
 
 	<context:component-scan base-package="kr.co.bodyfriend.*" />
 	
