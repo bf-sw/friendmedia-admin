@@ -3,7 +3,8 @@ $(document).ready(function () {
 });
 
 const DAEWONSHOP_LOGIN_INFO = "DAEWONSHOP_LOGIN_INFO";
-const API_URL = "http://172.30.40.98:8884/api";
+// const API_URL = "http://172.30.40.98:8884/api";
+const API_URL = "https://fm.bodyfriend.com/api";
 
 const Header = {
     userInfo: null,
@@ -26,9 +27,8 @@ const Header = {
                 location.href = "/login";
             }
             $("#loggedInUserName").html(Header.userInfo.name);
-            $("input[id=authCode]").val(
-                Header.userInfo.tokenType + " " + Header.userInfo.accessToken
-            );
+            $("input[id=tokenType]").val(Header.userInfo.tokenType);
+            $("input[id=authCode]").val(Header.userInfo.accessToken);
             // console.log($("input[id=authCode]").val());
         }
     },

@@ -102,7 +102,9 @@ const List = {
             beforeSend: function (xhr) {
                 xhr.setRequestHeader(
                     "Authorization",
-                    `${$("input[id=authCode]").val()}`
+                    `${$("input[id=tokenType]").val()} ${$(
+                        "input[id=authCode]"
+                    ).val()}`
                 );
             },
             success: function (res) {
