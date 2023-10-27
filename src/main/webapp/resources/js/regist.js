@@ -23,7 +23,7 @@ const Regist = {
         const urlParams = new URL(location.href).searchParams;
         const type = urlParams.get("type");
         const id = urlParams.get("id");
-        console.log("pagetype: ", type, id);
+        // console.log("pagetype: ", type, id);
         switch (type) {
             case "detail":
                 $("#deleteConsultBtn")
@@ -93,7 +93,7 @@ const Regist = {
             },
             success: function (res) {
                 if (res.status === 200) {
-                    console.log(res);
+                    // console.log(res);
                     Regist.setConsultDetail(res.data);
                 } else {
                     alert(res.message);
@@ -103,7 +103,7 @@ const Regist = {
         });
     },
     setConsultDetail: function (detailInfo) {
-        console.log("detail setting : ", detailInfo);
+        // console.log("detail setting : ", detailInfo);
         for (let detailType in detailInfo) {
             const detailValue = detailInfo[detailType];
             switch (detailType) {
@@ -223,7 +223,6 @@ const Regist = {
         if (Regist.validation()) {
             if (confirm("저장하시겠습니까?")) {
                 const id = $("input[name=id]").val();
-                // console.log("id", id);
                 let url = `${API_URL}/consultation/v1/regist`;
                 let form = {
                     name: $("input[name=name]").val(),
@@ -232,7 +231,10 @@ const Regist = {
                     channel: $("select[name=channel]").val(),
                     inType: $("select[name=inType]").val(),
                     consultType: $("select[name=consultType]").val(),
-                    level1: $("select[name=level1]").val(),
+                    level1:
+                        $("select[name=level1]").val() === "0"
+                            ? ""
+                            : $("select[name=level1]").val(),
                     level2: $("select[name=level2]").val(),
                     content: $("textarea[name=content]").val(),
                     consultDate: $("input[name=consultDate]").val(),
@@ -240,11 +242,6 @@ const Regist = {
                 if (!Validation.isEmpty(id)) {
                     url = `${API_URL}/consultation/v1/update`;
                     form.id = id;
-                }
-                if (form.level1 === "0") {
-                    //대분류 없을 경우 삭제
-                    let { level1, ...rest } = form;
-                    form = rest;
                 }
                 console.log("폼", form);
                 $.ajax({
