@@ -9,7 +9,7 @@ pageEncoding="UTF-8"%>
         <title>대원샵</title>
         <link rel="stylesheet" href="/resources/css/reset.css?v=20231023" />
         <link rel="stylesheet" href="/resources/css/font.css?v=20231023" />
-        <link rel="stylesheet" href="/resources/css/style.min.css?v=20231026" />
+        <link rel="stylesheet" href="/resources/css/style.min.css?v=20231030" />
         <script
             type="text/javascript"
             src="/resources/js/lib/jquery-3.6.1.min.js"

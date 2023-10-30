@@ -23,7 +23,6 @@ const Regist = {
         const urlParams = new URL(location.href).searchParams;
         const type = urlParams.get("type");
         const id = urlParams.get("id");
-        // console.log("pagetype: ", type, id);
         switch (type) {
             case "detail":
                 $("#deleteConsultBtn")

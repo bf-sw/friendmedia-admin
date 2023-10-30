@@ -51,17 +51,19 @@ const List = {
         List.getConsultListApi();
     },
     searchParamInit: function () {
-        $(".search_category input, .search_category select").val("");
+        // $(".search_category input, .search_category select").val("");
         DataSet.init();
         DatePicker.init($("#startDate, #endDate"));
     },
     getSearchParams: function (type) {
+        const isDateRangeNull = $("input[name=totalSearch]").is(":checked");
+
         const channel = $("select[name=channel]").val();
         const consultType = $("select[name=consultType]").val();
         const deleted = false;
-        const endDate = DataTransform.stringToDate(
-            $("input[name=endDate]").val()
-        );
+        const endDate = isDateRangeNull
+            ? ""
+            : DataTransform.stringToDate($("input[name=endDate]").val());
         const inType = $("select[name=inType]").val();
         const level1 = $("select[name=level1]").val();
         const level2 = $("select[name=level2]").val();
@@ -70,9 +72,9 @@ const List = {
         const page = $("#curPage").val();
         const phone = $("input[name=phone]").val();
         const size = $("#pageSize").val();
-        const startDate = DataTransform.stringToDate(
-            $("input[name=startDate]").val()
-        );
+        const startDate = isDateRangeNull
+            ? ""
+            : DataTransform.stringToDate($("input[name=startDate]").val());
 
         params = {
             channel: channel || "",
@@ -89,20 +91,16 @@ const List = {
             size,
             startDate,
         };
-
-        if ($("input[name=totalSearch]").is(":checked")) {
-            //날짜무시 체크되어 있을 경우 startDate, endDate 삭제
-            let { startDate, endDate, ...rest } = params;
-            params = rest;
-        }
+        // console.log("params", params);
         return params;
     },
 
     getConsultListApi: function () {
+        const data = List.getSearchParams();
         $.ajax({
             method: "GET",
             url: `${API_URL}/consultation/v1/search`,
-            data: List.getSearchParams(),
+            data,
             dataType: "json",
             contentType: "application/json",
             async: false,
@@ -117,7 +115,7 @@ const List = {
             },
             success: function (res) {
                 if (res.status === 200) {
-                    console.log(res);
+                    // console.log(res);
                     List.setConsultList(res.data);
                 } else {
                     alert(res.message);
@@ -175,6 +173,14 @@ const List = {
         }
         $("#searchResultCount").text(listData.totalElements);
         $("#consultResultTable tbody").html(listContent);
+        $("#consultResultTable tbody tr td:not(.checkbox_td)").on(
+            "click",
+            function (e) {
+                const thisTr = $(e.currentTarget).parent("tr");
+                const id = thisTr.data("id");
+                location.href = `/consult/regist?type=detail&id=${id}`;
+            }
+        );
         Paging.init(
             $(".paging"),
             listData.totalElements,

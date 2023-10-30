@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/head.jsp" %>
 <!-- 개별 script -->
-<script src="/resources/js/list.js?v=20231027"></script>
+<script src="/resources/js/list.js?v=20231030"></script>
 <main class="list_page">
      <%@ include file="/WEB-INF/views/common/navbar.jsp" %>
      <section class="container">
@@ -92,39 +92,45 @@
                          </td>
                          <th>채널</th>
                          <td>
-                             <select id="channel" name="channel" required>
-                                 <option value="" selected disabled>
-                                     채널
-                                 </option>
-                             </select>
+                             <div class="input_cont">
+                                 <select id="channel" name="channel" required>
+                                     <option value="" selected disabled>
+                                         채널
+                                     </option>
+                                 </select>
+                             </div>
                          </td>
                      </tr>
                      <tr>
                          <th>인입유형</th>
                          <td>
-                             <select id="inType" name="inType" required>
-                                 <option value="" selected disabled>
-                                     인입유형
-                                 </option>
-                             </select>
+                             <div class="input_cont">
+                                 <select id="inType" name="inType" required>
+                                     <option value="" selected disabled>
+                                         인입유형
+                                     </option>
+                                 </select>
+                             </div>
                          </td>
                          <th>상담유형</th>
                          <td colspan="5">
-                             <select id="consultType" name="consultType" required>
-                                 <option value="" selected disabled>
-                                     품목
-                                 </option>
-                             </select>
-                             <select id="level1" name="level1" required>
-                                 <option value="" selected disabled>
-                                     대분류
-                                 </option>
-                             </select>
-                             <select id="level2" name="level2" required>
-                                 <option value="" selected disabled>
-                                     중분류
-                                 </option>
-                             </select>
+                             <div class="input_cont">
+                                 <select id="consultType" name="consultType" required>
+                                     <option value="" selected disabled>
+                                         품목
+                                     </option>
+                                 </select>
+                                 <select id="level1" name="level1" required>
+                                     <option value="" selected disabled>
+                                         대분류
+                                     </option>
+                                 </select>
+                                 <select id="level2" name="level2" required>
+                                     <option value="" selected disabled>
+                                         중분류
+                                     </option>
+                                 </select>
+                             </div>
                          </td>
                      </tr>
                  </tbody>
