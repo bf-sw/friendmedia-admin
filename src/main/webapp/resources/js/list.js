@@ -160,7 +160,7 @@ const List = {
                         <td>${level1 || "-"}</td>
                         <td>${level2}</td>
                         <td>${consultDate}</td>
-                        <td>${department}</td>
+                        <td>프랜드미디어</td>
                         <td>${counselorNm}</td>
                     </tr>`;
                     }
