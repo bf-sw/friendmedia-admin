@@ -54,7 +54,8 @@ const Regist = {
     },
     setReadonlyContent: function () {
         const userInfo = Header.userInfo;
-        $("input[id=staffDept]").val(userInfo.department);
+        // $("input[id=staffDept]").val(userInfo.department);
+        $("input[id=staffDept]").val("프랜드미디어");
         $("input[id=staffName]").val(userInfo.name);
     },
 
