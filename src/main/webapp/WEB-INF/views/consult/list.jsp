@@ -113,7 +113,7 @@
                              </div>
                          </td>
                          <th>상담유형</th>
-                         <td colspan="5">
+                         <td colspan="3">
                              <div class="input_cont">
                                  <select id="consultType" name="consultType" required>
                                      <option value="" selected disabled>
@@ -131,6 +131,14 @@
                                      </option>
                                  </select>
                              </div>
+                         </td>
+                         <th>상담사명</th>
+                         <td>
+                             <input
+                                 type="text"
+                                 id="counselorNm"
+                                 name="counselorNm"
+                             />
                          </td>
                      </tr>
                  </tbody>

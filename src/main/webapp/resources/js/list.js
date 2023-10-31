@@ -58,6 +58,7 @@ const List = {
     getSearchParams: function (type) {
         const isDateRangeNull = $("input[name=totalSearch]").is(":checked");
 
+        const counselorNm = $("input[name=counselorNm]").val();
         const channel = $("select[name=channel]").val();
         const consultType = $("select[name=consultType]").val();
         const deleted = false;
@@ -77,6 +78,7 @@ const List = {
             : DataTransform.stringToDate($("input[name=startDate]").val());
 
         params = {
+            counselorNm: counselorNm || "",
             channel: channel || "",
             consultType: consultType || "",
             deleted,
@@ -208,6 +210,7 @@ const List = {
         const name = $("input[name=name]").val() || "";
         const orderNo = $("input[name=orderNo]").val() || "";
         const phone = $("input[name=phone]").val() || "";
+        const counselorNm = $("input[name=counselorNm]").val() || "";
 
         let nameURL = `&name=${name}`;
         let phoneURL = `&phone=${phone}`;
@@ -219,6 +222,7 @@ const List = {
         let consultTypeURL = `&consultType=${consultType}`;
         let level1URL = `&level1=${level1 === "0" ? "" : level1}`;
         let level2URL = `&level2=${level2 === "0" ? "" : level2}`;
+        let counselorNmURL = `&counselorNm=${counselorNm}`;
 
         let url =
             baseUrl +
@@ -231,7 +235,8 @@ const List = {
             inTypeURL +
             consultTypeURL +
             level1URL +
-            level2URL;
+            level2URL +
+            counselorNmURL;
 
         location.href = url;
     },
