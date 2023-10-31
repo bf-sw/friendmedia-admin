@@ -5,10 +5,11 @@ const OptionDataList = {
             { seq: 0, value: 0, text: "채널 선택" },
             { seq: 1, value: "daewonshop", text: "대원샵 (해피톡포함)" },
             { seq: 2, value: "dotorisoop", text: "도토리숲" },
-            { seq: 3, value: "naver", text: "네이버" },
-            { seq: 4, value: "nnmarket", text: "엔엔마켓" },
-            { seq: 5, value: "nintendo", text: "닌텐도제휴" },
-            { seq: 6, value: "harbi_zibri", text: "하비,지브리 제휴" },
+            { seq: 3, value: "naver_total", text: "네이버 (종합)" },
+            { seq: 4, value: "naver_blizzard", text: "네이버 (블리자드)" },
+            { seq: 5, value: "nnmarket", text: "엔엔마켓" },
+            { seq: 6, value: "nintendo", text: "닌텐도제휴" },
+            { seq: 7, value: "harbi_zibri", text: "하비,지브리 제휴" },
         ],
         //인입유형
         inType: [

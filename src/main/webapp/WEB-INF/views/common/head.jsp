@@ -25,7 +25,7 @@ pageEncoding="UTF-8"%>
 
         <script
             type="text/javascript"
-            src="/resources/js/data.js?v=20231026"
+            src="/resources/js/data.js?v=20231031"
         ></script>
         <script
             type="text/javascript"
