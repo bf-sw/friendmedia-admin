@@ -40,6 +40,17 @@ const List = {
         $("#downloadExcelBtn").on("click", function () {
             List.downloadExcel();
         });
+        //multi delete btn
+        $("#deleteMultiConsultBtn").on("click", function () {
+            const selectedItems = $(".list_checkbox:checked");
+            if (selectedItems.length > 0) {
+                if (confirm("삭제하시겠습니까?")) {
+                    List.deleteConsult(selectedItems);
+                }
+            } else {
+                alert("삭제할 상담을 선택해 주세요.");
+            }
+        });
     },
     initContent: function () {
         DataSet.init();
@@ -49,9 +60,16 @@ const List = {
 
         //처음 목록 불러오기
         List.getConsultListApi();
+
+        const isUserAuthorized = Header.isUserSameAuth();
+        $("#deleteMultiConsultBtn").css(
+            "display",
+            isUserAuthorized === "true" ? "inline" : "none"
+        );
     },
     searchParamInit: function () {
-        // $(".search_category input, .search_category select").val("");
+        $(".search_category input, .search_category select").val("");
+        $(".search_category input[name=complaint]").prop("checked", false);
         DataSet.init();
         DatePicker.init($("#startDate, #endDate"));
     },
@@ -76,6 +94,7 @@ const List = {
         const startDate = isDateRangeNull
             ? ""
             : DataTransform.stringToDate($("input[name=startDate]").val());
+        const complaint = $("input[name=complaint]").is(":checked");
 
         params = {
             counselorNm: counselorNm || "",
@@ -92,6 +111,7 @@ const List = {
             phone: phone || "",
             size,
             startDate,
+            complaint,
         };
         // console.log("params", params);
         return params;
@@ -123,7 +143,9 @@ const List = {
                     alert(res.message);
                 }
             },
-            error: function (jqXHR, textStatus, errorThrown) {},
+            error: function (res) {
+                alert(res.responseJSON.message);
+            },
         });
     },
     setConsultList: function (listData) {
@@ -133,6 +155,7 @@ const List = {
                 .map(
                     ({
                         channel,
+                        complaint,
                         consultDate,
                         consultType,
                         counselorNm,
@@ -145,14 +168,15 @@ const List = {
                         orderNo,
                         phone,
                     }) => {
-                        return `<tr onclick="location.href='/consult/regist?type=detail&id=${id}'" style="cursor:pointer;">
-                        <td>
+                        return `<tr style="cursor:pointer;" data-id=${id}>
+                        <td class="checkbox_td">
                             <label class="basic_checkbox table_checkbox">
-                                <input type="checkbox" id="select_${id}" class="list_checkbox"/>
+                                <input type="checkbox" id="select_${id}" class="list_checkbox" data-id="${id}" />
                                 <span class="on"></span>
                             </label>
                         </td>
                         <td>${id}</td>
+                        <td>${complaint ? "O" : "X"}</td>
                         <td>${name}</td>
                         <td>${DataTransform.formatPhoneNumber(phone)}</td>
                         <td>${orderNo}</td>
@@ -211,6 +235,7 @@ const List = {
         const orderNo = $("input[name=orderNo]").val() || "";
         const phone = $("input[name=phone]").val() || "";
         const counselorNm = $("input[name=counselorNm]").val() || "";
+        const complaint = $("input[name=complaint]").is(":checked");
 
         let nameURL = `&name=${name}`;
         let phoneURL = `&phone=${phone}`;
@@ -223,6 +248,7 @@ const List = {
         let level1URL = `&level1=${level1 === "0" ? "" : level1}`;
         let level2URL = `&level2=${level2 === "0" ? "" : level2}`;
         let counselorNmURL = `&counselorNm=${counselorNm}`;
+        let complaintURL = `&complaint=${complaint}`;
 
         let url =
             baseUrl +
@@ -236,8 +262,51 @@ const List = {
             consultTypeURL +
             level1URL +
             level2URL +
-            counselorNmURL;
+            counselorNmURL +
+            complaintURL;
 
         location.href = url;
+    },
+    deleteConsult: function (selectedItems) {
+        let url = `${API_URL}/consultation/v1/multi/delete`;
+        let deleteIdx = {
+            ids: [],
+        };
+        $.each(selectedItems, function (_, item) {
+            if (selectedItems.length === 1) {
+                url = `${API_URL}/consultation/v1/delete`;
+                deleteIdx = { id: $(item).data("id") };
+            } else {
+                deleteIdx.ids.push({ id: $(item).data("id") });
+            }
+        });
+        $.ajax({
+            method: "POST",
+            url,
+            data: JSON.stringify(deleteIdx),
+            dataType: "json",
+            contentType: "application/json",
+            async: false,
+            cache: false,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(
+                    "Authorization",
+                    `${$("input[id=tokenType]").val()} ${$(
+                        "input[id=authCode]"
+                    ).val()}`
+                );
+            },
+            success: function (res) {
+                if (res.status === 200) {
+                    alert("삭제되었습니다.");
+                    List.getConsultListApi();
+                } else {
+                    alert(res.message);
+                }
+            },
+            error: function (res) {
+                alert(res.responseJSON.message);
+            },
+        });
     },
 };

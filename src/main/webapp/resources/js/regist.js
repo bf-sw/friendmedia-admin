@@ -52,6 +52,25 @@ const Regist = {
         //input diabled 처리
         Regist.setContentDisable(type);
     },
+    //수정/삭제 표시
+    checkBtnActive: function (detailInfo) {
+        //관리자 체크
+        const isUserAuthorized = Header.isUserSameAuth();
+        $("#deleteConsultBtn").css(
+            "display",
+            isUserAuthorized === "true" ? "inline" : "none"
+        );
+        //본인 + 상담 날짜 체크
+        const isCurUser = Header.isUserSameAuth(detailInfo.counselorId);
+        const today = new Date();
+        const detailDate = new Date(detailInfo.consultDate);
+        const isSameDate = DataTransform.checkSameDate(today, detailDate);
+
+        $("#saveConsultBtn").css(
+            "display",
+            isCurUser && isSameDate ? "inline" : "none"
+        );
+    },
     setReadonlyContent: function () {
         const userInfo = Header.userInfo;
         // $("input[id=staffDept]").val(userInfo.department);
@@ -95,11 +114,14 @@ const Regist = {
                 if (res.status === 200) {
                     // console.log(res);
                     Regist.setConsultDetail(res.data);
+                    Regist.checkBtnActive(res.data);
                 } else {
                     alert(res.message);
                 }
             },
-            error: function (jqXHR, textStatus, errorThrown) {},
+            error: function (res) {
+                alert(res.responseJSON.message);
+            },
         });
     },
     setConsultDetail: function (detailInfo) {
@@ -126,6 +148,11 @@ const Regist = {
                     break;
                 case "content":
                     $(`textarea[name=${detailType}`).text(detailValue);
+                case "complaint":
+                    $(`input[name='${detailType}']`).attr(
+                        "checked",
+                        detailValue
+                    );
                 default:
                     $(`input[name=${detailType}]`).val(detailValue);
                     break;
@@ -238,12 +265,14 @@ const Regist = {
                     level2: $("select[name=level2]").val(),
                     content: $("textarea[name=content]").val(),
                     consultDate: $("input[name=consultDate]").val(),
+                    complaint: $("input[name=complaint]").is(":checked"),
                 };
                 if (!Validation.isEmpty(id)) {
                     url = `${API_URL}/consultation/v1/update`;
                     form.id = id;
                 }
-                console.log("폼", form);
+                // console.log("폼", form);
+
                 $.ajax({
                     method: "POST",
                     url,
@@ -269,7 +298,9 @@ const Regist = {
                             alert(res.message);
                         }
                     },
-                    error: function (jqXHR, textStatus, errorThrown) {},
+                    error: function (res) {
+                        alert(res.responseJSON.message);
+                    },
                 });
             }
         }
@@ -301,7 +332,9 @@ const Regist = {
                         alert(res.message);
                     }
                 },
-                error: function (jqXHR, textStatus, errorThrown) {},
+                error: function (res) {
+                    alert(res.responseJSON.message);
+                },
             });
         }
     },

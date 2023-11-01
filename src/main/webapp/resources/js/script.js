@@ -29,6 +29,8 @@ const Header = {
             $("#loggedInUserName").html(Header.userInfo.name);
             $("input[id=tokenType]").val(Header.userInfo.tokenType);
             $("input[id=authCode]").val(Header.userInfo.accessToken);
+            $("input[id=loginId]").val(Header.userInfo.loginId);
+            $("input[id=isAdmin]").val(Header.userInfo.admin);
             // console.log($("input[id=authCode]").val());
         }
     },
@@ -38,6 +40,19 @@ const Header = {
         Cookie.deleteCookie("autoid");
         Cookie.deleteCookie("autopw");
         location.href = "/login";
+    },
+    isUserSameAuth: function (userId) {
+        //권한, 같은 유저 확인
+        const curUserId = $("input[id=loginId]").val();
+        let isUserSameAuth = false;
+        if (userId) {
+            //같은지 확인
+            if (userId === curUserId) isUserSameAuth = true;
+        } else {
+            //관리자 확인
+            isUserSameAuth = $("input[id=isAdmin]").val();
+        }
+        return isUserSameAuth;
     },
 };
 
@@ -263,6 +278,13 @@ const DataTransform = {
     unformatPhoneNumber: function (phoneNumber) {
         // 하이픈(-)을 제거
         return phoneNumber.replace(/-/g, "");
+    },
+    checkSameDate: function (date1, date2) {
+        const isSameYear = date1.getFullYear() === date2.getFullYear();
+        const isSameMonth = date1.getMonth() === date2.getMonth();
+        const isSameDay = date1.getDate() === date2.getDate();
+
+        return isSameYear && isSameMonth && isSameDay;
     },
 };
 

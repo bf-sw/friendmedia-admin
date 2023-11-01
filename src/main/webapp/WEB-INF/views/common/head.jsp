@@ -29,11 +29,13 @@ pageEncoding="UTF-8"%>
         ></script>
         <script
             type="text/javascript"
-            src="/resources/js/script.js?v=20231027"
+            src="/resources/js/script.js?v=20231030"
         ></script>
     </head>
     <body>
         <input type="hidden" name="tokenType" id="tokenType" />
         <input type="hidden" name="authCode" id="authCode" />
+        <input type="hidden" name="loginId" id="loginId" />
+        <input type="hidden" name="isAdmin" id="isAdmin" />
     </body>
 </html>

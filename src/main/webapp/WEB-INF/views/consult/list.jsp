@@ -35,7 +35,7 @@
                  <tbody>
                      <tr>
                          <th>상담일자</th>
-                         <td colspan="7">
+                         <td colspan="3">
                              <div>
                                  <div class="input_cont datepicker_item">
                                      <input
@@ -63,6 +63,19 @@
                                      <span>날짜무시</span>
                                  </label>
                              </div>
+                         </td>
+                         <th>민원여부</th>
+                         <td colspan="3">
+                            <div>
+                                <label class="basic_checkbox">
+                                    <input
+                                        type="checkbox"
+                                        name="complaint"
+                                        id="complaint"
+                                    />
+                                    <span class="on" style="top: -10px;"></span>
+                                </label>
+                            </div>
                          </td>
                      </tr>
                      <tr>
@@ -192,6 +205,7 @@
                                  </label>
                              </th>
                              <th>번호</th>
+                             <th>민원</th>
                              <th>고객명</th>
                              <th>연락처</th>
                              <th>주문번호</th>
@@ -208,6 +222,9 @@
                      <tbody></tbody>
                  </table>
              </div>
+            <button type="button" class="active_btn" id="deleteMultiConsultBtn" style="margin-top: 10px;">
+                삭제
+            </button>
              <div class="paging"></div>
          </section>
      </section>
