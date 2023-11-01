@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/head.jsp" %>
 <!-- 개별 script -->
-<script src="/resources/js/regist.js?v=20231026"></script>
+<script src="/resources/js/regist.js?v=20231101"></script>
 <main class="list_page">
      <%@ include file="/WEB-INF/views/common/navbar.jsp" %>
      <form id="consultForm">
@@ -71,6 +71,16 @@
 	                                    name="orderNo"
 										placeholder="주문번호를 입력하세요" 
 	                                />
+									<label class="basic_checkbox"
+									style="display: inline-block;margin-left: 15px;">
+										<input
+											type="checkbox"
+											name="complaint"
+											id="complaint"
+										/>
+										<span class="on"></span>
+										<span>민원</span>
+									</label>
 	                            </td>
 	                        </tr>
 	                    </tbody>

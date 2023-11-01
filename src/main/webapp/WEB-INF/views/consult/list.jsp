@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/head.jsp" %>
 <!-- 개별 script -->
-<script src="/resources/js/list.js?v=20231027"></script>
+<script src="/resources/js/list.js?v=20231101"></script>
 <main class="list_page">
      <%@ include file="/WEB-INF/views/common/navbar.jsp" %>
      <section class="container">
@@ -35,7 +35,7 @@
                  <tbody>
                      <tr>
                          <th>상담일자</th>
-                         <td colspan="7">
+                         <td colspan="3">
                              <div>
                                  <div class="input_cont datepicker_item">
                                      <input
@@ -63,6 +63,22 @@
                                      <span>날짜무시</span>
                                  </label>
                              </div>
+                         </td>
+                         <th>민원여부</th>
+                         <td colspan="3">
+                            <div class="input_cont">
+                                <select id="complaint" name="complaint" required>
+                                    <option value="">
+                                        전체
+                                    </option>
+                                    <option value=true>
+                                        O
+                                    </option>
+                                    <option value=false>
+                                        X
+                                    </option>
+                                </select>
+                            </div>
                          </td>
                      </tr>
                      <tr>
@@ -92,39 +108,53 @@
                          </td>
                          <th>채널</th>
                          <td>
-                             <select id="channel" name="channel" required>
-                                 <option value="" selected disabled>
-                                     채널
-                                 </option>
-                             </select>
+                             <div class="input_cont">
+                                 <select id="channel" name="channel" required>
+                                     <option value="" selected disabled>
+                                         채널
+                                     </option>
+                                 </select>
+                             </div>
                          </td>
                      </tr>
                      <tr>
                          <th>인입유형</th>
                          <td>
-                             <select id="inType" name="inType" required>
-                                 <option value="" selected disabled>
-                                     인입유형
-                                 </option>
-                             </select>
+                             <div class="input_cont">
+                                 <select id="inType" name="inType" required>
+                                     <option value="" selected disabled>
+                                         인입유형
+                                     </option>
+                                 </select>
+                             </div>
                          </td>
                          <th>상담유형</th>
-                         <td colspan="5">
-                             <select id="consultType" name="consultType" required>
-                                 <option value="" selected disabled>
-                                     품목
-                                 </option>
-                             </select>
-                             <select id="level1" name="level1" required>
-                                 <option value="" selected disabled>
-                                     대분류
-                                 </option>
-                             </select>
-                             <select id="level2" name="level2" required>
-                                 <option value="" selected disabled>
-                                     중분류
-                                 </option>
-                             </select>
+                         <td colspan="3">
+                             <div class="input_cont">
+                                 <select id="consultType" name="consultType" required>
+                                     <option value="" selected disabled>
+                                         품목
+                                     </option>
+                                 </select>
+                                 <select id="level1" name="level1" required>
+                                     <option value="" selected disabled>
+                                         대분류
+                                     </option>
+                                 </select>
+                                 <select id="level2" name="level2" required>
+                                     <option value="" selected disabled>
+                                         중분류
+                                     </option>
+                                 </select>
+                             </div>
+                         </td>
+                         <th>상담사명</th>
+                         <td>
+                             <input
+                                 type="text"
+                                 id="counselorNm"
+                                 name="counselorNm"
+                             />
                          </td>
                      </tr>
                  </tbody>
@@ -178,6 +208,7 @@
                                  </label>
                              </th>
                              <th>번호</th>
+                             <th>민원</th>
                              <th>고객명</th>
                              <th>연락처</th>
                              <th>주문번호</th>
@@ -194,6 +225,9 @@
                      <tbody></tbody>
                  </table>
              </div>
+            <button type="button" class="active_btn" id="deleteMultiConsultBtn" style="margin-top: 10px;">
+                삭제
+            </button>
              <div class="paging"></div>
          </section>
      </section>

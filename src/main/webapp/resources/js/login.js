@@ -122,7 +122,6 @@ const Login = {
                 }
             },
             error: function (res) {
-                console.log(res);
                 alert(res.responseJSON.message);
             },
         });

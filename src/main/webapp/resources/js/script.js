@@ -29,6 +29,8 @@ const Header = {
             $("#loggedInUserName").html(Header.userInfo.name);
             $("input[id=tokenType]").val(Header.userInfo.tokenType);
             $("input[id=authCode]").val(Header.userInfo.accessToken);
+            $("input[id=loginId]").val(Header.userInfo.loginId);
+            $("input[id=isAdmin]").val(Header.userInfo.admin);
             // console.log($("input[id=authCode]").val());
         }
     },
@@ -38,6 +40,19 @@ const Header = {
         Cookie.deleteCookie("autoid");
         Cookie.deleteCookie("autopw");
         location.href = "/login";
+    },
+    isUserSameAuth: function (userId) {
+        //권한, 같은 유저 확인
+        const curUserId = $("input[id=loginId]").val();
+        let isUserSameAuth = false;
+        if (userId) {
+            //같은지 확인
+            if (userId === curUserId) isUserSameAuth = true;
+        } else {
+            //관리자 확인
+            isUserSameAuth = $("input[id=isAdmin]").val();
+        }
+        return isUserSameAuth;
     },
 };
 
@@ -56,53 +71,58 @@ const DataSet = {
     },
     setSelectOption: function () {
         //채널, 인입경로, 품목 세팅
-        for (let depth1 in OptionDataList.depth1) {
-            let depth1Item = OptionDataList.depth1[depth1];
+        for (let depth1 in OptionDataList) {
+            let depth1Item = OptionDataList[depth1];
             DataSet.setOptionDom(depth1, depth1Item);
         }
     },
     setOptionLv: function (type, selectedValue) {
-        const dataValue = $(`select[name=${type}] option:selected`).data(
-            "value"
-        );
         //품목에 따른 대분류, 중분류 세팅
         let level1Dom,
             level2Dom = "";
+        let consultTypeData;
         switch (type) {
             case "consultType":
-                //대분류 : data-level1 = "none" 즉 undefined 가 아니면 대분류 disabled 처리
-                const islevel1NotExist =
-                    $(
-                        `select[name=consultType] option[value='${selectedValue}']`
-                    ).data("level1") === "none";
-                if (islevel1NotExist) {
+                consultTypeData = OptionDataList[type].find(
+                    ({ text }) => text === selectedValue
+                );
+                const islevel1Exist = consultTypeData.child.level1;
+                if (islevel1Exist) {
+                    //대분류
+                    DataSet.setOptionDom(
+                        "level1",
+                        consultTypeData.child.level1
+                    );
+                    //중분류 초기화
+                    level2Dom = "<option value=''>중분류</option>";
+                    $(`select[name=level2]`).html(level2Dom);
+                } else {
                     //대분류 초기화
-                    level1Dom = "<option value=0>대분류</option>";
+                    level1Dom = "<option value=''>대분류</option>";
                     $(`select[name=level1]`).html(level1Dom);
                     //중분류
                     DataSet.setOptionDom(
                         "level2",
-                        OptionDataList.depth3.level2[dataValue]
+                        consultTypeData.child.level2
                     );
-                } else {
-                    //대분류
-                    DataSet.setOptionDom(
-                        "level1",
-                        OptionDataList.depth2.level1
-                    );
-                    //중분류 초기화
-                    level2Dom = "<option value=0>중분류</option>";
-                    $(`select[name=level2]`).html(level2Dom);
                 }
-                $(`select[name=level1]`).attr("disabled", islevel1NotExist);
+                $(`select[name=level1]`).attr("disabled", !islevel1Exist);
                 break;
 
             case "level1":
-                //중분류
-                DataSet.setOptionDom(
-                    "level2",
-                    OptionDataList.depth3[dataValue]
+                const consultType = $("select[name=consultType]").val();
+                consultTypeData = OptionDataList["consultType"].find(
+                    ({ text }) => text === consultType
                 );
+
+                if (!Validation.isEmpty(selectedValue)) {
+                    const level2Data = consultTypeData.child.level1.find(
+                        ({ text }) => text === selectedValue
+                    );
+                    //중분류
+                    DataSet.setOptionDom("level2", level2Data.child);
+                }
+
                 break;
 
             default:
@@ -111,19 +131,16 @@ const DataSet = {
     },
     //list 넘기면 option dom 가져옴
     setOptionDom: function (domName, list) {
+        const totalDom = "<option value='' selected disabled>전체</option>";
         const domItem = list
-            .map(({ value, text, level1 }) => {
-                return `<option value='${text}' 
-                data-value='${value}' 
-                ${value === 0 ? "disabled selected" : ""} 
-                ${level1 === null ? "data-level1='none'" : ""}>
+            .map(({ text }) => {
+                return `<option value='${text}'>
                     ${text}
                 </option>`;
             })
             .join(",", "")
             .replaceAll(",", "");
-        // return domItem;
-        $(`select[name=${domName}]`).html(domItem);
+        $(`select[name=${domName}]`).html(totalDom + domItem);
     },
 };
 
@@ -263,6 +280,13 @@ const DataTransform = {
     unformatPhoneNumber: function (phoneNumber) {
         // 하이픈(-)을 제거
         return phoneNumber.replace(/-/g, "");
+    },
+    checkSameDate: function (date1, date2) {
+        const isSameYear = date1.getFullYear() === date2.getFullYear();
+        const isSameMonth = date1.getMonth() === date2.getMonth();
+        const isSameDay = date1.getDate() === date2.getDate();
+
+        return isSameYear && isSameMonth && isSameDay;
     },
 };
 
