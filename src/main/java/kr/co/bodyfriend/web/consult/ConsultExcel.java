@@ -28,7 +28,7 @@ public class ConsultExcel extends AbstractExcelPOIView {
              
 		@SuppressWarnings("unchecked")
 		List<Map<String, Object>> excelList = (List<Map<String, Object>>) modelMap.get("excelData");
-		Row row 							= worksheet.createRow(0);
+		Row row = worksheet.createRow(0);
 		
 		CellStyle greyCellStyle = workbook.createCellStyle();
 		applyCellStyle(greyCellStyle, HSSFColor.GREY_25_PERCENT.index);
