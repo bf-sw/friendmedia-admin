@@ -40,6 +40,17 @@ const List = {
         $("#downloadExcelBtn").on("click", function () {
             List.downloadExcel();
         });
+        //multi delete btn
+        $("#deleteMultiConsultBtn").on("click", function () {
+            const selectedItems = $(".list_checkbox:checked");
+            if (selectedItems.length > 0) {
+                if (confirm("삭제하시겠습니까?")) {
+                    List.deleteConsult(selectedItems);
+                }
+            } else {
+                alert("삭제할 상담을 선택해 주세요.");
+            }
+        });
     },
     initContent: function () {
         DataSet.init();
@@ -49,6 +60,12 @@ const List = {
 
         //처음 목록 불러오기
         List.getConsultListApi();
+
+        const isUserAuthorized = Header.isUserSameAuth();
+        $("#deleteMultiConsultBtn").css(
+            "display",
+            isUserAuthorized === "true" ? "inline" : "none"
+        );
     },
     searchParamInit: function () {
         $(".search_category input, .search_category select").val("");
@@ -56,12 +73,15 @@ const List = {
         DatePicker.init($("#startDate, #endDate"));
     },
     getSearchParams: function (type) {
+        const isDateRangeNull = $("input[name=totalSearch]").is(":checked");
+
+        const counselorNm = $("input[name=counselorNm]").val();
         const channel = $("select[name=channel]").val();
         const consultType = $("select[name=consultType]").val();
         const deleted = false;
-        const endDate = DataTransform.stringToDate(
-            $("input[name=endDate]").val()
-        );
+        const endDate = isDateRangeNull
+            ? ""
+            : DataTransform.stringToDate($("input[name=endDate]").val());
         const inType = $("select[name=inType]").val();
         const level1 = $("select[name=level1]").val();
         const level2 = $("select[name=level2]").val();
@@ -70,11 +90,13 @@ const List = {
         const page = $("#curPage").val();
         const phone = $("input[name=phone]").val();
         const size = $("#pageSize").val();
-        const startDate = DataTransform.stringToDate(
-            $("input[name=startDate]").val()
-        );
+        const startDate = isDateRangeNull
+            ? ""
+            : DataTransform.stringToDate($("input[name=startDate]").val());
+        const complaint = $("select[name=complaint]").val();
 
         params = {
+            counselorNm: counselorNm || "",
             channel: channel || "",
             consultType: consultType || "",
             deleted,
@@ -88,21 +110,18 @@ const List = {
             phone: phone || "",
             size,
             startDate,
+            complaint,
         };
-
-        if ($("input[name=totalSearch]").is(":checked")) {
-            //날짜무시 체크되어 있을 경우 startDate, endDate 삭제
-            let { startDate, endDate, ...rest } = params;
-            params = rest;
-        }
+        // console.log("params", params);
         return params;
     },
 
     getConsultListApi: function () {
+        const data = List.getSearchParams();
         $.ajax({
             method: "GET",
             url: `${API_URL}/consultation/v1/search`,
-            data: List.getSearchParams(),
+            data,
             dataType: "json",
             contentType: "application/json",
             async: false,
@@ -117,13 +136,15 @@ const List = {
             },
             success: function (res) {
                 if (res.status === 200) {
-                    console.log(res);
+                    // console.log(res);
                     List.setConsultList(res.data);
                 } else {
                     alert(res.message);
                 }
             },
-            error: function (jqXHR, textStatus, errorThrown) {},
+            error: function (res) {
+                alert(res.responseJSON.message);
+            },
         });
     },
     setConsultList: function (listData) {
@@ -133,6 +154,7 @@ const List = {
                 .map(
                     ({
                         channel,
+                        complaint,
                         consultDate,
                         consultType,
                         counselorNm,
@@ -145,14 +167,15 @@ const List = {
                         orderNo,
                         phone,
                     }) => {
-                        return `<tr onclick="location.href='/consult/regist?type=detail&id=${id}'" style="cursor:pointer;">
-                        <td>
+                        return `<tr style="cursor:pointer;" data-id=${id}>
+                        <td class="checkbox_td">
                             <label class="basic_checkbox table_checkbox">
-                                <input type="checkbox" id="select_${id}" class="list_checkbox"/>
+                                <input type="checkbox" id="select_${id}" class="list_checkbox" data-id="${id}" />
                                 <span class="on"></span>
                             </label>
                         </td>
                         <td>${id}</td>
+                        <td>${complaint ? "O" : "X"}</td>
                         <td>${name}</td>
                         <td>${DataTransform.formatPhoneNumber(phone)}</td>
                         <td>${orderNo}</td>
@@ -162,7 +185,7 @@ const List = {
                         <td>${level1 || "-"}</td>
                         <td>${level2}</td>
                         <td>${consultDate}</td>
-                        <td>${department}</td>
+                        <td>프랜드미디어</td>
                         <td>${counselorNm}</td>
                     </tr>`;
                     }
@@ -171,10 +194,18 @@ const List = {
                 .replaceAll(",", "");
         } else {
             listContent =
-                "<tr><td colspan='13'>검색 결과가 없습니다.</td></tr>";
+                "<tr><td colspan='14'>검색 결과가 없습니다.</td></tr>";
         }
         $("#searchResultCount").text(listData.totalElements);
         $("#consultResultTable tbody").html(listContent);
+        $("#consultResultTable tbody tr td:not(.checkbox_td)").on(
+            "click",
+            function (e) {
+                const thisTr = $(e.currentTarget).parent("tr");
+                const id = thisTr.data("id");
+                location.href = `/consult/regist?type=detail&id=${id}`;
+            }
+        );
         Paging.init(
             $(".paging"),
             listData.totalElements,
@@ -202,6 +233,8 @@ const List = {
         const name = $("input[name=name]").val() || "";
         const orderNo = $("input[name=orderNo]").val() || "";
         const phone = $("input[name=phone]").val() || "";
+        const counselorNm = $("input[name=counselorNm]").val() || "";
+        const complaint = $("select[name=complaint]").val();
 
         let nameURL = `&name=${name}`;
         let phoneURL = `&phone=${phone}`;
@@ -213,6 +246,8 @@ const List = {
         let consultTypeURL = `&consultType=${consultType}`;
         let level1URL = `&level1=${level1 === "0" ? "" : level1}`;
         let level2URL = `&level2=${level2 === "0" ? "" : level2}`;
+        let counselorNmURL = `&counselorNm=${counselorNm}`;
+        let complaintURL = `&complaint=${complaint}`;
 
         let url =
             baseUrl +
@@ -225,8 +260,52 @@ const List = {
             inTypeURL +
             consultTypeURL +
             level1URL +
-            level2URL;
-
+            level2URL +
+            counselorNmURL +
+            complaintURL;
+        // console.log(url);
         location.href = url;
+    },
+    deleteConsult: function (selectedItems) {
+        let url = `${API_URL}/consultation/v1/multi/delete`;
+        let deleteIdx = {
+            ids: [],
+        };
+        $.each(selectedItems, function (_, item) {
+            if (selectedItems.length === 1) {
+                url = `${API_URL}/consultation/v1/delete`;
+                deleteIdx = { id: $(item).data("id") };
+            } else {
+                deleteIdx.ids.push({ id: $(item).data("id") });
+            }
+        });
+        $.ajax({
+            method: "POST",
+            url,
+            data: JSON.stringify(deleteIdx),
+            dataType: "json",
+            contentType: "application/json",
+            async: false,
+            cache: false,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(
+                    "Authorization",
+                    `${$("input[id=tokenType]").val()} ${$(
+                        "input[id=authCode]"
+                    ).val()}`
+                );
+            },
+            success: function (res) {
+                if (res.status === 200) {
+                    alert("삭제되었습니다.");
+                    List.getConsultListApi();
+                } else {
+                    alert(res.message);
+                }
+            },
+            error: function (res) {
+                alert(res.responseJSON.message);
+            },
+        });
     },
 };

@@ -2,10 +2,10 @@
   </head>
 <body>
 	<header>
-	    <div class="logo_area">
+	    <div class="logo_area" onclick="location.href='/consult/list'">
 	        <img
-	            src="https://bodyfriend.speedgabia.com/img/bodyfriend/common/logo/logo_bf_grey.svg"
-	            alt="Bodyfriend Logo"
+	            src="/resources/img/friend_media_logo.png"
+	            alt="FriendMedia Logo"
 	        />
 	        <span>대원샵 상담이력 관리</span>
 	    </div>
