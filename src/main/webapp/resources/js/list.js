@@ -194,7 +194,7 @@ const List = {
                 .replaceAll(",", "");
         } else {
             listContent =
-                "<tr><td colspan='13'>검색 결과가 없습니다.</td></tr>";
+                "<tr><td colspan='14'>검색 결과가 없습니다.</td></tr>";
         }
         $("#searchResultCount").text(listData.totalElements);
         $("#consultResultTable tbody").html(listContent);
@@ -263,7 +263,7 @@ const List = {
             level2URL +
             counselorNmURL +
             complaintURL;
-
+        // console.log(url);
         location.href = url;
     },
     deleteConsult: function (selectedItems) {
