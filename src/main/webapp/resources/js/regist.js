@@ -210,14 +210,6 @@ const Regist = {
             isValid = false;
             return;
         }
-        //상담유형 - 대분류
-        const level1 = $("select[name=level1]");
-        if (Validation.isEmpty(level1.val())) {
-            alert("대분류를 선택해 주세요.");
-            level1.focus();
-            isValid = false;
-            return;
-        }
         //상담유형 - 중분류
         const level2 = $("select[name=level2]");
         if (Validation.isEmpty(level2.val())) {

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/head.jsp" %>
 <!-- 개별 script -->
-<script src="/resources/js/list.js?v=20231030"></script>
+<script src="/resources/js/list.js?v=20231101"></script>
 <main class="list_page">
      <%@ include file="/WEB-INF/views/common/navbar.jsp" %>
      <section class="container">
@@ -66,15 +66,18 @@
                          </td>
                          <th>민원여부</th>
                          <td colspan="3">
-                            <div>
-                                <label class="basic_checkbox">
-                                    <input
-                                        type="checkbox"
-                                        name="complaint"
-                                        id="complaint"
-                                    />
-                                    <span class="on" style="top: -10px;"></span>
-                                </label>
+                            <div class="input_cont">
+                                <select id="complaint" name="complaint" required>
+                                    <option value="">
+                                        전체
+                                    </option>
+                                    <option value=true>
+                                        O
+                                    </option>
+                                    <option value=false>
+                                        X
+                                    </option>
+                                </select>
                             </div>
                          </td>
                      </tr>

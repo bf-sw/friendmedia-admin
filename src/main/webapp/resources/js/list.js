@@ -69,7 +69,6 @@ const List = {
     },
     searchParamInit: function () {
         $(".search_category input, .search_category select").val("");
-        $(".search_category input[name=complaint]").prop("checked", false);
         DataSet.init();
         DatePicker.init($("#startDate, #endDate"));
     },
@@ -94,7 +93,7 @@ const List = {
         const startDate = isDateRangeNull
             ? ""
             : DataTransform.stringToDate($("input[name=startDate]").val());
-        const complaint = $("input[name=complaint]").is(":checked");
+        const complaint = $("select[name=complaint]").val();
 
         params = {
             counselorNm: counselorNm || "",
@@ -235,7 +234,7 @@ const List = {
         const orderNo = $("input[name=orderNo]").val() || "";
         const phone = $("input[name=phone]").val() || "";
         const counselorNm = $("input[name=counselorNm]").val() || "";
-        const complaint = $("input[name=complaint]").is(":checked");
+        const complaint = $("select[name=complaint]").val();
 
         let nameURL = `&name=${name}`;
         let phoneURL = `&phone=${phone}`;
