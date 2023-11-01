@@ -101,7 +101,7 @@ public class ConsultExcel extends AbstractExcelPOIView {
 			Cell bodyCell12 = row.createCell(12);
 			
 			bodyCell0.setCellValue(line);
-			bodyCell1.setCellValue(UtilManager.isEmptyOrNull(consultInfo.get("complaint")) ? "" : ("1".equals(consultInfo.get("complaint").toString()) ? "발생" : "미발생"));
+			bodyCell1.setCellValue(UtilManager.isEmptyOrNull(consultInfo.get("complaint")) ? "" : ("true".equals(consultInfo.get("complaint").toString()) ? "발생" : "미발생"));
 			bodyCell2.setCellValue(UtilManager.isEmptyOrNull(consultInfo.get("name")) ? "" : consultInfo.get("name").toString());
 			bodyCell3.setCellValue(UtilManager.isEmptyOrNull(consultInfo.get("phone")) ? "" : consultInfo.get("phone").toString());
 			bodyCell4.setCellValue(UtilManager.isEmptyOrNull(consultInfo.get("orderNo")) ? "" : consultInfo.get("orderNo").toString());
