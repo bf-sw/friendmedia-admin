@@ -23,8 +23,8 @@ public class ConsultExcel extends AbstractExcelPOIView {
 	
 	@Override
 	protected void buildExcelDocument(Map<String,Object> modelMap, Workbook workbook, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String excelName 	= URLEncoder.encode(modelMap.get("title").toString(),"UTF-8");
-		Sheet worksheet 	= workbook.createSheet("상담이력");
+		String excelName = URLEncoder.encode(modelMap.get("title").toString(),"UTF-8");
+		Sheet worksheet = workbook.createSheet("상담이력");
              
 		@SuppressWarnings("unchecked")
 		List<Map<String, Object>> excelList = (List<Map<String, Object>>) modelMap.get("excelData");
