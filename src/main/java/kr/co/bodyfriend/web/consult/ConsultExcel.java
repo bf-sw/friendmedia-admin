@@ -45,19 +45,21 @@ public class ConsultExcel extends AbstractExcelPOIView {
 		Cell cell9 = row.createCell(9);
 		Cell cell10 = row.createCell(10);
 		Cell cell11 = row.createCell(11);
+		Cell cell12 = row.createCell(12);
 		
 		cell0.setCellValue("번호");
-		cell1.setCellValue("고객명");
-		cell2.setCellValue("연락처");
-		cell3.setCellValue("주문번호");
-		cell4.setCellValue("채널");
-		cell5.setCellValue("인입유형");
-		cell6.setCellValue("품목");
-		cell7.setCellValue("대분류");
-		cell8.setCellValue("중분류");
-		cell9.setCellValue("상담일자");
-		cell10.setCellValue("접수부서");
-		cell11.setCellValue("접수상담사");
+		cell1.setCellValue("민원발생여부");
+		cell2.setCellValue("고객명");
+		cell3.setCellValue("연락처");
+		cell4.setCellValue("주문번호");
+		cell5.setCellValue("채널");
+		cell6.setCellValue("인입유형");
+		cell7.setCellValue("품목");
+		cell8.setCellValue("대분류");
+		cell9.setCellValue("중분류");
+		cell10.setCellValue("상담일자");
+		cell11.setCellValue("접수부서");
+		cell12.setCellValue("접수상담사");
 		
 		cell0.setCellStyle(greyCellStyle);
 		cell1.setCellStyle(greyCellStyle);
@@ -71,6 +73,7 @@ public class ConsultExcel extends AbstractExcelPOIView {
 		cell9.setCellStyle(greyCellStyle);
 		cell10.setCellStyle(greyCellStyle);
 		cell11.setCellStyle(greyCellStyle);
+		cell12.setCellStyle(greyCellStyle);
 		
 		CellStyle whiteCellStyle = workbook.createCellStyle();
 		applyCellStyle(whiteCellStyle, HSSFColor.WHITE.index);
@@ -95,20 +98,24 @@ public class ConsultExcel extends AbstractExcelPOIView {
 			Cell bodyCell9 = row.createCell(9);
 			Cell bodyCell10 = row.createCell(10);
 			Cell bodyCell11 = row.createCell(11);
+			Cell bodyCell12 = row.createCell(12);
 			
 			bodyCell0.setCellValue(line);
-			bodyCell1.setCellValue(UtilManager.isEmptyOrNull(consultInfo.get("name")) ? "" : consultInfo.get("name").toString());
-			bodyCell2.setCellValue(UtilManager.isEmptyOrNull(consultInfo.get("phone")) ? "" : consultInfo.get("phone").toString());
-			bodyCell3.setCellValue(UtilManager.isEmptyOrNull(consultInfo.get("orderNo")) ? "" : consultInfo.get("orderNo").toString());
-			bodyCell4.setCellValue(UtilManager.isEmptyOrNull(consultInfo.get("channel")) ? "" : consultInfo.get("channel").toString());
-			bodyCell5.setCellValue(UtilManager.isEmptyOrNull(consultInfo.get("inType")) ? "" : consultInfo.get("inType").toString());
-			bodyCell6.setCellValue(UtilManager.isEmptyOrNull(consultInfo.get("consultType")) ? "" : consultInfo.get("consultType").toString());
-			bodyCell7.setCellValue(UtilManager.isEmptyOrNull(consultInfo.get("level1")) ? "" : consultInfo.get("level1").toString());
-			bodyCell8.setCellValue(UtilManager.isEmptyOrNull(consultInfo.get("level2")) ? "" : consultInfo.get("level2").toString());
-			bodyCell9.setCellValue(UtilManager.isEmptyOrNull(consultInfo.get("consultDate")) ? "" : consultInfo.get("consultDate").toString());
-			bodyCell10.setCellValue(UtilManager.isEmptyOrNull(consultInfo.get("department")) ? "" : consultInfo.get("department").toString());
-			bodyCell11.setCellValue(UtilManager.isEmptyOrNull(consultInfo.get("counselorNm")) ? "" : consultInfo.get("counselorNm").toString());
+			bodyCell1.setCellValue(UtilManager.isEmptyOrNull(consultInfo.get("complaint")) ? "" : ("1".equals(consultInfo.get("complaint").toString()) ? "발생" : "미발생"));
+			bodyCell2.setCellValue(UtilManager.isEmptyOrNull(consultInfo.get("name")) ? "" : consultInfo.get("name").toString());
+			bodyCell3.setCellValue(UtilManager.isEmptyOrNull(consultInfo.get("phone")) ? "" : consultInfo.get("phone").toString());
+			bodyCell4.setCellValue(UtilManager.isEmptyOrNull(consultInfo.get("orderNo")) ? "" : consultInfo.get("orderNo").toString());
+			bodyCell5.setCellValue(UtilManager.isEmptyOrNull(consultInfo.get("channel")) ? "" : consultInfo.get("channel").toString());
+			bodyCell6.setCellValue(UtilManager.isEmptyOrNull(consultInfo.get("inType")) ? "" : consultInfo.get("inType").toString());
+			bodyCell7.setCellValue(UtilManager.isEmptyOrNull(consultInfo.get("consultType")) ? "" : consultInfo.get("consultType").toString());
+			bodyCell8.setCellValue(UtilManager.isEmptyOrNull(consultInfo.get("level1")) ? "" : consultInfo.get("level1").toString());
+			bodyCell9.setCellValue(UtilManager.isEmptyOrNull(consultInfo.get("level2")) ? "" : consultInfo.get("level2").toString());
+			bodyCell10.setCellValue(UtilManager.isEmptyOrNull(consultInfo.get("consultDate")) ? "" : consultInfo.get("consultDate").toString());
+			//bodyCell11.setCellValue(UtilManager.isEmptyOrNull(consultInfo.get("department")) ? "" : consultInfo.get("department").toString());
+			bodyCell11.setCellValue("프랜드미디어");
+			bodyCell12.setCellValue(UtilManager.isEmptyOrNull(consultInfo.get("counselorNm")) ? "" : consultInfo.get("counselorNm").toString());
 			
+			bodyCell0.setCellStyle(whiteCellStyle);
 			bodyCell1.setCellStyle(whiteCellStyle);
 			bodyCell2.setCellStyle(whiteCellStyle);
 			bodyCell3.setCellStyle(whiteCellStyle);
@@ -120,6 +127,7 @@ public class ConsultExcel extends AbstractExcelPOIView {
 			bodyCell9.setCellStyle(whiteCellStyle);
 			bodyCell10.setCellStyle(whiteCellStyle);
 			bodyCell11.setCellStyle(whiteCellStyle);
+			bodyCell12.setCellStyle(whiteCellStyle);
 			
 			line += 1;
 		}
