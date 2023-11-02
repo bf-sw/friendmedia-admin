@@ -103,6 +103,7 @@ const Regist = {
             async: false,
             cache: false,
             beforeSend: function (xhr) {
+                Loading.startLoading();
                 xhr.setRequestHeader(
                     "Authorization",
                     `${$("input[id=tokenType]").val()} ${$(
@@ -121,6 +122,9 @@ const Regist = {
             },
             error: function (res) {
                 alert(res.responseJSON.message);
+            },
+            complete: function () {
+                Loading.finishLoading();
             },
         });
     },
@@ -274,6 +278,7 @@ const Regist = {
                     async: false,
                     cache: false,
                     beforeSend: function (xhr) {
+                        Loading.startLoading();
                         xhr.setRequestHeader(
                             "Authorization",
                             `${$("input[id=tokenType]").val()} ${$(
@@ -293,6 +298,9 @@ const Regist = {
                     error: function (res) {
                         alert(res.responseJSON.message);
                     },
+                    complete: function () {
+                        Loading.finishLoading();
+                    },
                 });
             }
         }
@@ -308,6 +316,7 @@ const Regist = {
                 async: false,
                 cache: false,
                 beforeSend: function (xhr) {
+                    Loading.startLoading();
                     xhr.setRequestHeader(
                         "Authorization",
                         `${$("input[id=tokenType]").val()} ${$(
@@ -326,6 +335,9 @@ const Regist = {
                 },
                 error: function (res) {
                     alert(res.responseJSON.message);
+                },
+                complete: function () {
+                    Loading.finishLoading();
                 },
             });
         }

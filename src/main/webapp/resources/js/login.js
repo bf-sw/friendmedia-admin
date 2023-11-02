@@ -105,7 +105,9 @@ const Login = {
             contentType: "application/json",
             async: false,
             cache: false,
-            beforeSend: function (xhr) {},
+            beforeSend: function (xhr) {
+                Loading.startLoading();
+            },
             success: function (res) {
                 if (res.status === 200) {
                     //아이디 저장, 자동로그인 체크하여 설정
@@ -123,6 +125,9 @@ const Login = {
             },
             error: function (res) {
                 alert(res.responseJSON.message);
+            },
+            complete: function () {
+                Loading.finishLoading();
             },
         });
 

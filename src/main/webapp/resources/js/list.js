@@ -127,6 +127,7 @@ const List = {
             async: false,
             cache: false,
             beforeSend: function (xhr) {
+                Loading.startLoading();
                 xhr.setRequestHeader(
                     "Authorization",
                     `${$("input[id=tokenType]").val()} ${$(
@@ -145,28 +146,38 @@ const List = {
             error: function (res) {
                 alert(res.responseJSON.message);
             },
+            complete: function () {
+                Loading.finishLoading();
+            },
         });
     },
     setConsultList: function (listData) {
         let listContent;
+        const curPageNum = Number($("#curPage").val());
+        const pageSizeNum = Number($("#pageSize").val());
+        const totalCountNum = listData.totalElements;
+        let lastIdx = totalCountNum - curPageNum * pageSizeNum;
         if (listData.content.length > 0) {
             listContent = listData.content
                 .map(
-                    ({
-                        channel,
-                        complaint,
-                        consultDate,
-                        consultType,
-                        counselorNm,
-                        department,
-                        id,
-                        inType,
-                        level1,
-                        level2,
-                        name,
-                        orderNo,
-                        phone,
-                    }) => {
+                    (
+                        {
+                            channel,
+                            complaint,
+                            consultDate,
+                            consultType,
+                            counselorNm,
+                            department,
+                            id,
+                            inType,
+                            level1,
+                            level2,
+                            name,
+                            orderNo,
+                            phone,
+                        },
+                        idx
+                    ) => {
                         return `<tr style="cursor:pointer;" data-id=${id}>
                         <td class="checkbox_td">
                             <label class="basic_checkbox table_checkbox">
@@ -174,7 +185,7 @@ const List = {
                                 <span class="on"></span>
                             </label>
                         </td>
-                        <td>${id}</td>
+                        <td>${lastIdx - idx}</td>
                         <td>${complaint ? "O" : "X"}</td>
                         <td>${name}</td>
                         <td>${DataTransform.formatPhoneNumber(phone)}</td>
@@ -214,6 +225,8 @@ const List = {
         );
     },
     downloadExcel: function () {
+        Loading.setLoading(3000);
+
         let baseUrl = `/consult/excel?token=${$("input[name=authCode]").val()}`;
 
         //날짜무시 여부
@@ -288,6 +301,7 @@ const List = {
             async: false,
             cache: false,
             beforeSend: function (xhr) {
+                Loading.startLoading();
                 xhr.setRequestHeader(
                     "Authorization",
                     `${$("input[id=tokenType]").val()} ${$(
@@ -305,6 +319,9 @@ const List = {
             },
             error: function (res) {
                 alert(res.responseJSON.message);
+            },
+            complete: function () {
+                Loading.finishLoading();
             },
         });
     },

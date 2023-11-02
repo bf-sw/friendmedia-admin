@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/head.jsp" %>
 <!-- 개별 script -->
-<script src="/resources/js/login.js?v=20231101"></script>
+<script src="/resources/js/login.js?v=20231102"></script>
 <main class="login_page">
 	 <%@ include file="/WEB-INF/views/common/navbar.jsp" %>
         <div class="login_wrap">
