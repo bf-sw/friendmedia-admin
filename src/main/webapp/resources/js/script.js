@@ -5,6 +5,21 @@ $(document).ready(function () {
 const DAEWONSHOP_LOGIN_INFO = "DAEWONSHOP_LOGIN_INFO";
 // const API_URL = "http://172.30.40.98:8884/api";
 const API_URL = "https://fm.bodyfriend.com/api";
+const Loading = {
+    LOADING_HIDE_CLASS: "hide",
+    setLoading: function (duration) {
+        $("#loading").removeClass(Loading.LOADING_HIDE_CLASS);
+        setTimeout(() => {
+            $("#loading").addClass(Loading.LOADING_HIDE_CLASS);
+        }, duration || 1000);
+    },
+    startLoading: function () {
+        $("#loading").removeClass(Loading.LOADING_HIDE_CLASS);
+    },
+    finishLoading: function () {
+        $("#loading").addClass(Loading.LOADING_HIDE_CLASS);
+    },
+};
 
 const Header = {
     userInfo: null,

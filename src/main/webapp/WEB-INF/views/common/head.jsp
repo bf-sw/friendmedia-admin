@@ -9,7 +9,7 @@ pageEncoding="UTF-8"%>
         <title>대원샵</title>
         <link rel="stylesheet" href="/resources/css/reset.css?v=20231023" />
         <link rel="stylesheet" href="/resources/css/font.css?v=20231023" />
-        <link rel="stylesheet" href="/resources/css/style.min.css?v=20231101" />
+        <link rel="stylesheet" href="/resources/css/style.min.css?v=20231102" />
         <script
             type="text/javascript"
             src="/resources/js/lib/jquery-3.6.1.min.js"
@@ -29,7 +29,7 @@ pageEncoding="UTF-8"%>
         ></script>
         <script
             type="text/javascript"
-            src="/resources/js/script.js?v=20231101"
+            src="/resources/js/script.js?v=20231102"
         ></script>
     </head>
     <body>
@@ -37,5 +37,9 @@ pageEncoding="UTF-8"%>
         <input type="hidden" name="authCode" id="authCode" />
         <input type="hidden" name="loginId" id="loginId" />
         <input type="hidden" name="isAdmin" id="isAdmin" />
+        <div id="loading" class="hide">
+            <div class="loading_bg"></div>
+            <div class="loading_spinner"></div>
+        </div>
     </body>
 </html>

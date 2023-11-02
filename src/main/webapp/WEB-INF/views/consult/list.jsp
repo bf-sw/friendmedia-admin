@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/head.jsp" %>
 <!-- 개별 script -->
-<script src="/resources/js/list.js?v=20231101"></script>
+<script src="/resources/js/list.js?v=20231102"></script>
 <main class="list_page">
      <%@ include file="/WEB-INF/views/common/navbar.jsp" %>
      <section class="container">
@@ -178,18 +178,6 @@
                  </button>
              </div>
              <div class="search_result_table">
-                 <input
-                     type="hidden"
-                     name="curPage"
-                     id="curPage"
-                     value="1"
-                 />
-                 <input
-                     type="hidden"
-                     name="pageSize"
-                     id="pageSize"
-                     value="10"
-                 />
                  <table class="basic_table" id="consultResultTable">
                      <caption>
                          상담 이력 검색 결과 테이블
