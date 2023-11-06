@@ -140,11 +140,13 @@ const Regist = {
                         `select[name='${detailType}'] option[value='${detailValue}']`
                     ).attr("selected", true);
                     $(`select[name='${detailType}']`).trigger("change");
+                    break;
                 case "level1":
                     $(
                         `select[name='${detailType}'] option[value='${detailValue}']`
                     ).attr("selected", true);
                     $(`select[name='${detailType}']`).trigger("change");
+                    break;
                 case "level2":
                     $(
                         `select[name='${detailType}'] option[value='${detailValue}']`
@@ -152,11 +154,16 @@ const Regist = {
                     break;
                 case "content":
                     $(`textarea[name=${detailType}`).text(detailValue);
+                    break;
                 case "complaint":
                     $(`input[name='${detailType}']`).attr(
                         "checked",
                         detailValue
                     );
+                    break;
+                case "counselorNm":
+                    $(`input[id=staffName]`).val(detailValue);
+                    break;
                 default:
                     $(`input[name=${detailType}]`).val(detailValue);
                     break;
