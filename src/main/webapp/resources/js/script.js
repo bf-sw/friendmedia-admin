@@ -147,15 +147,15 @@ const DataSet = {
     //list 넘기면 option dom 가져옴
     setOptionDom: function (domName, list) {
         const totalDom = "<option value='' selected disabled>전체</option>";
-        const domItem = list
-            .map(({ text }) => {
-                return `<option value='${text}'>
+        const domItem = list.map(({ text }) => {
+            return `<option value='${text}'>
                     ${text}
                 </option>`;
-            })
-            .join(",", "")
-            .replaceAll(",", "");
-        $(`select[name=${domName}]`).html(totalDom + domItem);
+        });
+        // .join(",", "")
+        // .replaceAll(",", "");
+        $(`select[name=${domName}]`).empty();
+        $(`select[name=${domName}]`).append(totalDom + domItem);
     },
 };
 
