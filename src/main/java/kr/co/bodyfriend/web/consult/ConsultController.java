@@ -102,7 +102,8 @@ public class ConsultController {
 			        .queryParam("consultType", params.get("consultType"))
 			        .queryParam("level1", params.get("level1"))
 			        .queryParam("level2", params.get("level2"))
-			        .queryParam("complaint", params.get("complaint"));
+			        .queryParam("complaint", params.get("complaint"))
+			        .queryParam("consultStatus", params.get("consultStatus"));
 			
 			RestTemplate restTemplate = new RestTemplate();
 			

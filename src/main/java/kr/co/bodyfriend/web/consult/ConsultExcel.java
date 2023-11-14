@@ -46,6 +46,7 @@ public class ConsultExcel extends AbstractExcelPOIView {
 		Cell cell10 = row.createCell(10);
 		Cell cell11 = row.createCell(11);
 		Cell cell12 = row.createCell(12);
+		Cell cell13 = row.createCell(13);
 		
 		cell0.setCellValue("번호");
 		cell1.setCellValue("민원발생여부");
@@ -60,6 +61,7 @@ public class ConsultExcel extends AbstractExcelPOIView {
 		cell10.setCellValue("상담일자");
 		cell11.setCellValue("접수부서");
 		cell12.setCellValue("접수상담사");
+		cell13.setCellValue("상담결과");
 		
 		cell0.setCellStyle(greyCellStyle);
 		cell1.setCellStyle(greyCellStyle);
@@ -74,6 +76,7 @@ public class ConsultExcel extends AbstractExcelPOIView {
 		cell10.setCellStyle(greyCellStyle);
 		cell11.setCellStyle(greyCellStyle);
 		cell12.setCellStyle(greyCellStyle);
+		cell13.setCellStyle(greyCellStyle);
 		
 		CellStyle whiteCellStyle = workbook.createCellStyle();
 		applyCellStyle(whiteCellStyle, HSSFColor.WHITE.index);
@@ -99,6 +102,7 @@ public class ConsultExcel extends AbstractExcelPOIView {
 			Cell bodyCell10 = row.createCell(10);
 			Cell bodyCell11 = row.createCell(11);
 			Cell bodyCell12 = row.createCell(12);
+			Cell bodyCell13 = row.createCell(13);
 			
 			bodyCell0.setCellValue(line);
 			bodyCell1.setCellValue(UtilManager.isEmptyOrNull(consultInfo.get("complaint")) ? "" : ("true".equals(consultInfo.get("complaint").toString()) ? "발생" : "미발생"));
@@ -114,6 +118,7 @@ public class ConsultExcel extends AbstractExcelPOIView {
 			//bodyCell11.setCellValue(UtilManager.isEmptyOrNull(consultInfo.get("department")) ? "" : consultInfo.get("department").toString());
 			bodyCell11.setCellValue("프랜드미디어");
 			bodyCell12.setCellValue(UtilManager.isEmptyOrNull(consultInfo.get("counselorNm")) ? "" : consultInfo.get("counselorNm").toString());
+			bodyCell13.setCellValue(getConsultStatusNm(consultInfo.get("consultStatus").toString()));
 			
 			bodyCell0.setCellStyle(whiteCellStyle);
 			bodyCell1.setCellStyle(whiteCellStyle);
@@ -128,6 +133,7 @@ public class ConsultExcel extends AbstractExcelPOIView {
 			bodyCell10.setCellStyle(whiteCellStyle);
 			bodyCell11.setCellStyle(whiteCellStyle);
 			bodyCell12.setCellStyle(whiteCellStyle);
+			bodyCell13.setCellStyle(whiteCellStyle);
 			
 			line += 1;
 		}
@@ -150,6 +156,24 @@ public class ConsultExcel extends AbstractExcelPOIView {
 		cellStyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
 		cellStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
 		cellStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+	}
+	
+	private String getConsultStatusNm(String consultStatus) {
+		String consultStatusNm = "접수";
+		
+		switch (consultStatus) {
+		case "READY" : 
+			consultStatusNm = "진행중";
+			break;
+		case "COMPLETE" : 
+			consultStatusNm = "완료";
+			break;
+		case "CANCEL" : 
+			consultStatusNm = "취소/보류";
+			break;
+		}
+		
+		return consultStatusNm;
 	}
 	
 	@Override
