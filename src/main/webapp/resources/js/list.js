@@ -112,8 +112,11 @@ const List = {
             size,
             startDate,
             complaint,
-            consultStatus,
+            // consultStatus: consultStatus === "" ? null : consultStatus,
         };
+        if (consultStatus !== "") {
+            params.consultStatus = consultStatus;
+        }
         return params;
     },
 
