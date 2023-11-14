@@ -158,27 +158,26 @@ const List = {
         const totalCountNum = listData.totalElements;
         let lastIdx = totalCountNum - curPageNum * pageSizeNum;
         if (listData.content.length > 0) {
-            listContent = listData.content
-                .map(
-                    (
-                        {
-                            channel,
-                            complaint,
-                            consultDate,
-                            consultType,
-                            counselorNm,
-                            department,
-                            id,
-                            inType,
-                            level1,
-                            level2,
-                            name,
-                            orderNo,
-                            phone,
-                        },
-                        idx
-                    ) => {
-                        return `<tr style="cursor:pointer;" data-id=${id}>
+            listContent = listData.content.map(
+                (
+                    {
+                        channel,
+                        complaint,
+                        consultDate,
+                        consultType,
+                        counselorNm,
+                        department,
+                        id,
+                        inType,
+                        level1,
+                        level2,
+                        name,
+                        orderNo,
+                        phone,
+                    },
+                    idx
+                ) => {
+                    return `<tr style="cursor:pointer;" data-id=${id}>
                         <td class="checkbox_td">
                             <label class="basic_checkbox table_checkbox">
                                 <input type="checkbox" id="select_${id}" class="list_checkbox" data-id="${id}" />
@@ -199,16 +198,15 @@ const List = {
                         <td>프랜드미디어</td>
                         <td>${counselorNm}</td>
                     </tr>`;
-                    }
-                )
-                .join("")
-                .replaceAll(",", "");
+                }
+            );
         } else {
             listContent =
                 "<tr><td colspan='14'>검색 결과가 없습니다.</td></tr>";
         }
         $("#searchResultCount").text(listData.totalElements);
-        $("#consultResultTable tbody").html(listContent);
+        $("#consultResultTable tbody").empty();
+        $("#consultResultTable tbody").append(listContent);
         $("#consultResultTable tbody tr td:not(.checkbox_td)").on(
             "click",
             function (e) {
