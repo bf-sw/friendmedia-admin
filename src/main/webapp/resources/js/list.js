@@ -94,6 +94,7 @@ const List = {
             ? ""
             : DataTransform.stringToDate($("input[name=startDate]").val());
         const complaint = $("select[name=complaint]").val();
+        const consultStatus = $("select[name=consultStatus]").val();
 
         params = {
             counselorNm: counselorNm || "",
@@ -111,8 +112,11 @@ const List = {
             size,
             startDate,
             complaint,
+            // consultStatus: consultStatus === "" ? null : consultStatus,
         };
-        // console.log("params", params);
+        if (consultStatus !== "") {
+            params.consultStatus = consultStatus;
+        }
         return params;
     },
 
@@ -158,27 +162,27 @@ const List = {
         const totalCountNum = listData.totalElements;
         let lastIdx = totalCountNum - curPageNum * pageSizeNum;
         if (listData.content.length > 0) {
-            listContent = listData.content
-                .map(
-                    (
-                        {
-                            channel,
-                            complaint,
-                            consultDate,
-                            consultType,
-                            counselorNm,
-                            department,
-                            id,
-                            inType,
-                            level1,
-                            level2,
-                            name,
-                            orderNo,
-                            phone,
-                        },
-                        idx
-                    ) => {
-                        return `<tr style="cursor:pointer;" data-id=${id}>
+            listContent = listData.content.map(
+                (
+                    {
+                        channel,
+                        complaint,
+                        consultDate,
+                        consultType,
+                        counselorNm,
+                        consultStatus,
+                        department,
+                        id,
+                        inType,
+                        level1,
+                        level2,
+                        name,
+                        orderNo,
+                        phone,
+                    },
+                    idx
+                ) => {
+                    return `<tr style="cursor:pointer;" data-id=${id}>
                         <td class="checkbox_td">
                             <label class="basic_checkbox table_checkbox">
                                 <input type="checkbox" id="select_${id}" class="list_checkbox" data-id="${id}" />
@@ -187,6 +191,7 @@ const List = {
                         </td>
                         <td>${lastIdx - idx}</td>
                         <td>${complaint ? "O" : "X"}</td>
+                        <td>${consultStatus ? consultStatus : ""}</td>
                         <td>${name}</td>
                         <td>${DataTransform.formatPhoneNumber(phone)}</td>
                         <td>${orderNo}</td>
@@ -199,16 +204,15 @@ const List = {
                         <td>프랜드미디어</td>
                         <td>${counselorNm}</td>
                     </tr>`;
-                    }
-                )
-                .join("")
-                .replaceAll(",", "");
+                }
+            );
         } else {
             listContent =
                 "<tr><td colspan='14'>검색 결과가 없습니다.</td></tr>";
         }
         $("#searchResultCount").text(listData.totalElements);
-        $("#consultResultTable tbody").html(listContent);
+        $("#consultResultTable tbody").empty();
+        $("#consultResultTable tbody").append(listContent);
         $("#consultResultTable tbody tr td:not(.checkbox_td)").on(
             "click",
             function (e) {
@@ -248,6 +252,7 @@ const List = {
         const phone = $("input[name=phone]").val() || "";
         const counselorNm = $("input[name=counselorNm]").val() || "";
         const complaint = $("select[name=complaint]").val();
+        const consultStatus = $("select[name=consultStatus]").val();
 
         let nameURL = `&name=${name}`;
         let phoneURL = `&phone=${phone}`;
@@ -261,6 +266,7 @@ const List = {
         let level2URL = `&level2=${level2 === "0" ? "" : level2}`;
         let counselorNmURL = `&counselorNm=${counselorNm}`;
         let complaintURL = `&complaint=${complaint}`;
+        let consultStatusURL = `&consultStatus=${consultStatus}`;
 
         let url =
             baseUrl +
@@ -275,7 +281,8 @@ const List = {
             level1URL +
             level2URL +
             counselorNmURL +
-            complaintURL;
+            complaintURL +
+            consultStatusURL;
         // console.log(url);
         location.href = url;
     },

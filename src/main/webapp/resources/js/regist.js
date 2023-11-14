@@ -60,16 +60,13 @@ const Regist = {
             "display",
             isUserAuthorized === "true" ? "inline" : "none"
         );
-        //본인 + 상담 날짜 체크
+        //본인 + 상담 날짜 체크 : 날짜 체크 삭제
         const isCurUser = Header.isUserSameAuth(detailInfo.counselorId);
-        const today = new Date();
-        const detailDate = new Date(detailInfo.consultDate);
-        const isSameDate = DataTransform.checkSameDate(today, detailDate);
+        // const today = new Date();
+        // const detailDate = new Date(detailInfo.consultDate);
+        // const isSameDate = DataTransform.checkSameDate(today, detailDate);
 
-        $("#saveConsultBtn").css(
-            "display",
-            isCurUser && isSameDate ? "inline" : "none"
-        );
+        $("#saveConsultBtn").css("display", isCurUser ? "inline" : "none");
     },
     setReadonlyContent: function () {
         const userInfo = Header.userInfo;
@@ -136,6 +133,7 @@ const Regist = {
                 case "channel":
                 case "inType":
                 case "consultType":
+                case "consultStatus":
                     $(
                         `select[name='${detailType}'] option[value='${detailValue}']`
                     ).attr("selected", true);
@@ -213,6 +211,14 @@ const Regist = {
             isValid = false;
             return;
         }
+        //상담결과
+        const consultStatus = $("select[name=consultStatus]");
+        if (Validation.isEmpty(consultStatus.val())) {
+            alert("상담결과를 선택해 주세요.");
+            consultStatus.focus();
+            isValid = false;
+            return;
+        }
         //상담유형 - 품목
         const consultType = $("select[name=consultType]");
         if (Validation.isEmpty(consultType.val())) {
@@ -260,6 +266,7 @@ const Regist = {
                     orderNo: $("input[name=orderNo]").val(),
                     channel: $("select[name=channel]").val(),
                     inType: $("select[name=inType]").val(),
+                    consultStatus: $("select[name=consultStatus]").val(),
                     consultType: $("select[name=consultType]").val(),
                     level1:
                         $("select[name=level1]").val() === "0"
@@ -275,6 +282,7 @@ const Regist = {
                     form.id = id;
                 }
                 // console.log("폼", form);
+                // return;
 
                 $.ajax({
                     method: "POST",

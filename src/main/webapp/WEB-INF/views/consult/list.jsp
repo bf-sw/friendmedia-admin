@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/head.jsp" %>
 <!-- 개별 script -->
-<script src="/resources/js/list.js?v=20231102"></script>
+<script src="/resources/js/list.js?v=20231114"></script>
 <main class="list_page">
      <%@ include file="/WEB-INF/views/common/navbar.jsp" %>
      <section class="container">
@@ -65,7 +65,7 @@
                              </div>
                          </td>
                          <th>민원여부</th>
-                         <td colspan="3">
+                         <td>
                             <div class="input_cont">
                                 <select id="complaint" name="complaint" required>
                                     <option value="">
@@ -76,6 +76,28 @@
                                     </option>
                                     <option value=false>
                                         X
+                                    </option>
+                                </select>
+                            </div>
+                         </td>
+                         <th>상담결과</th>
+                         <td>
+                            <div class="input_cont">
+                                <select id="consultStatus" name="consultStatus" required>
+                                    <option value="">
+                                        전체
+                                    </option>
+                                    <option value="접수">
+                                        접수
+                                    </option>
+                                    <option value="진행중">
+                                        진행중
+                                    </option>
+                                    <option value="완료">
+                                        완료
+                                    </option>
+                                    <option value="취소/보류">
+                                        취소/보류
                                     </option>
                                 </select>
                             </div>
@@ -197,6 +219,7 @@
                              </th>
                              <th>번호</th>
                              <th>민원</th>
+                             <th>상담결과</th>
                              <th>고객명</th>
                              <th>연락처</th>
                              <th>주문번호</th>
