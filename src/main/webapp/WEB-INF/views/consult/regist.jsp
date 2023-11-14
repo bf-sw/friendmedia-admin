@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/head.jsp" %>
 <!-- 개별 script -->
-<script src="/resources/js/regist.js?v=20231106"></script>
+<script src="/resources/js/regist.js?v=20231114"></script>
 <main class="list_page">
      <%@ include file="/WEB-INF/views/common/navbar.jsp" %>
      <form id="consultForm">
@@ -130,10 +130,32 @@
 	                                    </select>
 	                                </div>
 	                            </td>
+	                            <th>상담결과</th>
+	                            <td>
+	                                <div class="input_cont">
+	                                    <select id="consultStatus" name="consultStatus" required>
+											<option value="">
+												전체
+											</option>
+											<option value="접수">
+												접수
+											</option>
+											<option value="진행중">
+												진행중
+											</option>
+											<option value="완료">
+												완료
+											</option>
+											<option value="취소/보류">
+												취소/보류
+											</option>
+										</select>
+	                                </div>
+	                            </td>
 	                        </tr>
 	                        <tr>
 	                            <th>상담유형</th>
-	                            <td colspan="3">
+	                            <td colspan="5">
 	                                <div class="input_cont">
 	                                    <select id="consultType" name="consultType" required>
 	                                        <option
@@ -167,7 +189,7 @@
 	                        </tr>
 	                        <tr>
 	                            <th>상담이력</th>
-	                            <td colspan="3">
+	                            <td colspan="5">
 	                                <textarea
 	                                    id="content"
 	                                    name="content"
@@ -176,7 +198,7 @@
 	                        </tr>
 	                        <tr>
 	                            <th>상담일자</th>
-	                            <td colspan="3">
+	                            <td colspan="5">
 	                                <div
 	                                    class="input_cont datepicker_item"
 	                                >
@@ -200,7 +222,7 @@
 	                                </div>
 	                            </td>
 	                            <th>접수상담사</th>
-	                            <td>
+	                            <td colspan="3">
 	                                <div class="input_cont">
 	                                    <input
 	                                        type="text"

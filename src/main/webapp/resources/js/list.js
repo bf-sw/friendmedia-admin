@@ -94,6 +94,7 @@ const List = {
             ? ""
             : DataTransform.stringToDate($("input[name=startDate]").val());
         const complaint = $("select[name=complaint]").val();
+        const consultStatus = $("select[name=consultStatus]").val();
 
         params = {
             counselorNm: counselorNm || "",
@@ -111,8 +112,8 @@ const List = {
             size,
             startDate,
             complaint,
+            consultStatus,
         };
-        // console.log("params", params);
         return params;
     },
 
@@ -166,6 +167,7 @@ const List = {
                         consultDate,
                         consultType,
                         counselorNm,
+                        consultStatus,
                         department,
                         id,
                         inType,
@@ -186,6 +188,7 @@ const List = {
                         </td>
                         <td>${lastIdx - idx}</td>
                         <td>${complaint ? "O" : "X"}</td>
+                        <td>${consultStatus ? consultStatus : ""}</td>
                         <td>${name}</td>
                         <td>${DataTransform.formatPhoneNumber(phone)}</td>
                         <td>${orderNo}</td>
@@ -246,6 +249,7 @@ const List = {
         const phone = $("input[name=phone]").val() || "";
         const counselorNm = $("input[name=counselorNm]").val() || "";
         const complaint = $("select[name=complaint]").val();
+        const consultStatus = $("select[name=consultStatus]").val();
 
         let nameURL = `&name=${name}`;
         let phoneURL = `&phone=${phone}`;
@@ -259,6 +263,7 @@ const List = {
         let level2URL = `&level2=${level2 === "0" ? "" : level2}`;
         let counselorNmURL = `&counselorNm=${counselorNm}`;
         let complaintURL = `&complaint=${complaint}`;
+        let consultStatusURL = `&consultStatus=${consultStatus}`;
 
         let url =
             baseUrl +
@@ -273,7 +278,8 @@ const List = {
             level1URL +
             level2URL +
             counselorNmURL +
-            complaintURL;
+            complaintURL +
+            consultStatusURL;
         // console.log(url);
         location.href = url;
     },
