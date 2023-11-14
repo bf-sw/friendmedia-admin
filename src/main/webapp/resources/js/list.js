@@ -182,6 +182,10 @@ const List = {
                     },
                     idx
                 ) => {
+                    const consultStatusName =
+                        ConsultStatusData.find(
+                            (item) => item.value === consultStatus
+                        )?.name || "";
                     return `<tr style="cursor:pointer;" data-id=${id}>
                         <td class="checkbox_td">
                             <label class="basic_checkbox table_checkbox">
@@ -191,7 +195,7 @@ const List = {
                         </td>
                         <td>${lastIdx - idx}</td>
                         <td>${complaint ? "O" : "X"}</td>
-                        <td>${consultStatus ? consultStatus : ""}</td>
+                        <td>${consultStatus ? consultStatusName : ""}</td>
                         <td>${name}</td>
                         <td>${DataTransform.formatPhoneNumber(phone)}</td>
                         <td>${orderNo}</td>

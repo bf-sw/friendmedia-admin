@@ -1,3 +1,10 @@
+const ConsultStatusData = [
+    { name: "접수", value: "REGISTRATION" },
+    { name: "진행중", value: "READY" },
+    { name: "완료", value: "COMPLETE" },
+    { name: "취소/보류", value: "CANCEL" },
+];
+
 const OptionDataList = {
     //채널
     channel: [
