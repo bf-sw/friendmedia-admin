@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/head.jsp" %>
 <!-- 개별 script -->
-<script src="/resources/js/list.js?v=20231114"></script>
+<script src="/resources/js/list.js?v=202311141426"></script>
 <main class="list_page">
      <%@ include file="/WEB-INF/views/common/navbar.jsp" %>
      <section class="container">
@@ -87,16 +87,16 @@
                                     <option value="">
                                         전체
                                     </option>
-                                    <option value="접수">
+                                    <option value="REGISTRATION">
                                         접수
                                     </option>
-                                    <option value="진행중">
+                                    <option value="READY">
                                         진행중
                                     </option>
-                                    <option value="완료">
+                                    <option value="COMPLETE">
                                         완료
                                     </option>
-                                    <option value="취소/보류">
+                                    <option value="CANCEL">
                                         취소/보류
                                     </option>
                                 </select>
