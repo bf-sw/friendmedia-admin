@@ -60,13 +60,16 @@ const Regist = {
             "display",
             isUserAuthorized === "true" ? "inline" : "none"
         );
-        //본인 + 상담 날짜 체크 : 날짜 체크 삭제
+        //본인 + 상담 날짜 체크 -> 관리자 + 상담사
         const isCurUser = Header.isUserSameAuth(detailInfo.counselorId);
         // const today = new Date();
         // const detailDate = new Date(detailInfo.consultDate);
         // const isSameDate = DataTransform.checkSameDate(today, detailDate);
 
-        $("#saveConsultBtn").css("display", isCurUser ? "inline" : "none");
+        $("#saveConsultBtn").css(
+            "display",
+            isUserAuthorized || isCurUser ? "inline" : "none"
+        );
     },
     setReadonlyContent: function () {
         const userInfo = Header.userInfo;
