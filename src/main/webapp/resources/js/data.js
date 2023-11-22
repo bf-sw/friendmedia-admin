@@ -428,9 +428,14 @@ const OptionDataList = {
             child: {
                 level1: null,
                 level2: [
-                    { seq: 1, text: "정보문의" },
-                    { seq: 2, text: "적립금/쿠폰" },
-                    { seq: 3, text: "기타" },
+                    { seq: 1, text: "관련없음" },
+                    { seq: 2, text: "대원샵" },
+                    { seq: 3, text: "도토리숲" },
+                    { seq: 4, text: "매장안내" },
+                    { seq: 5, text: "브랜드스토어" },
+                    { seq: 6, text: "엔엔마켓" },
+                    { seq: 7, text: "제휴몰" },
+                    { seq: 8, text: "기타" },
                 ],
             },
         },
