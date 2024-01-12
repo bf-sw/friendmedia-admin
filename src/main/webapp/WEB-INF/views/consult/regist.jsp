@@ -59,7 +59,6 @@
 	                                    type="text"
 	                                    id="phone"
 	                                    name="phone"
-										maxlength="11"
 										placeholder="연락처를 입력하세요" 
 	                                />
 	                            </td>
