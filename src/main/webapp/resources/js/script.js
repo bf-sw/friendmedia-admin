@@ -109,11 +109,11 @@ const DataSet = {
                         consultTypeData.child.level1
                     );
                     //중분류 초기화
-                    level2Dom = "<option value=''>중분류</option>";
+                    level2Dom = "<option value=''>소분류</option>";
                     $(`select[name=level2]`).html(level2Dom);
                 } else {
                     //대분류 초기화
-                    level1Dom = "<option value=''>대분류</option>";
+                    level1Dom = "<option value=''>중분류</option>";
                     $(`select[name=level1]`).html(level1Dom);
                     //중분류
                     DataSet.setOptionDom(

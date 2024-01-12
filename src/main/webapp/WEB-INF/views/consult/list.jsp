@@ -155,17 +155,17 @@
                              <div class="input_cont">
                                  <select id="consultType" name="consultType" required>
                                      <option value="" selected disabled>
-                                         품목
+                                         대분류
                                      </option>
                                  </select>
                                  <select id="level1" name="level1" required>
                                      <option value="" selected disabled>
-                                         대분류
+                                         중분류
                                      </option>
                                  </select>
                                  <select id="level2" name="level2" required>
                                      <option value="" selected disabled>
-                                         중분류
+                                         소분류
                                      </option>
                                  </select>
                              </div>

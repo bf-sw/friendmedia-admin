@@ -162,7 +162,7 @@
 	                                            selected
 	                                            disabled
 	                                        >
-	                                            품목
+											대분류
 	                                        </option>
 	                                    </select>
 	                                    <select required id="level1" name="level1">
@@ -171,7 +171,7 @@
 	                                            selected
 	                                            disabled
 	                                        >
-	                                            대분류
+											중분류
 	                                        </option>
 	                                    </select>
 	                                    <select required id="level2" name="level2">
@@ -180,7 +180,7 @@
 	                                            selected
 	                                            disabled
 	                                        >
-	                                            중분류
+	                                            소분류
 	                                        </option>
 	                                    </select>
 	                                </div>

@@ -233,7 +233,7 @@ const Regist = {
         //상담유형 - 중분류
         const level2 = $("select[name=level2]");
         if (Validation.isEmpty(level2.val())) {
-            alert("중분류를 선택해 주세요.");
+            alert("소분류를 선택해 주세요.");
             level2.focus();
             isValid = false;
             return;
