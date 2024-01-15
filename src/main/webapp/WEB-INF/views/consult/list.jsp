@@ -225,12 +225,13 @@
                              <th>주문번호</th>
                              <th>채널</th>
                              <th>인입유형</th>
-                             <th>품목</th>
                              <th>대분류</th>
                              <th>중분류</th>
+                             <th>소분류</th>
+                             <th>상담이력</th>
                              <th>상담일자</th>
+                             <th>상담사명</th>
                              <th>접수부서</th>
-                             <th>접수상담사</th>
                          </tr>
                      </thead>
                      <tbody></tbody>
