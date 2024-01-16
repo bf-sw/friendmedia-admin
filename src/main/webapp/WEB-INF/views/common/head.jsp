@@ -29,7 +29,7 @@ pageEncoding="UTF-8"%>
         ></script>
         <script
             type="text/javascript"
-            src="/resources/js/script.js?v=20240115"
+            src="/resources/js/script.js?v=20240116"
         ></script>
     </head>
     <body>

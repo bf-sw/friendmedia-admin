@@ -3,8 +3,9 @@ $(document).ready(function () {
 });
 
 const DAEWONSHOP_LOGIN_INFO = "DAEWONSHOP_LOGIN_INFO";
-// const API_URL = "http://172.30.40.98:8884/api";
-const API_URL = "https://fm.bodyfriend.com/api";
+const API_URL = "http://172.30.40.98:8884/api";
+// const API_URL = "https://fm.bodyfriend.com/api";
+
 const Loading = {
     LOADING_HIDE_CLASS: "hide",
     setLoading: function (duration) {
@@ -77,12 +78,11 @@ const DataSet = {
         DataSet.setSelectOption();
     },
     dataEventInit: function () {
-        $("select[name=consultType], select[name=level1]").on(
-            "change",
-            function (e) {
-                DataSet.setOptionLv(e.target.name, e.target.value);
-            }
-        );
+        $(
+            "select[name=consultType], select[name=level1], select[name=modal_consultType], select[name=modal_level1]"
+        ).on("change", function (e) {
+            DataSet.setOptionLv(e.target.name, e.target.value);
+        });
     },
     setSelectOption: function () {
         //채널, 인입경로, 품목 세팅
@@ -96,9 +96,12 @@ const DataSet = {
         let level1Dom,
             level2Dom = "";
         let consultTypeData;
+        const itemType = type.replaceAll("modal_", "");
+        const isModalItem = type.includes("modal_") ? "modal_" : "";
         switch (type) {
             case "consultType":
-                consultTypeData = OptionDataList[type].find(
+            case "modal_consultType":
+                consultTypeData = OptionDataList[itemType].find(
                     ({ text }) => text === selectedValue
                 );
                 const islevel1Exist = consultTypeData.child.level1;
@@ -110,22 +113,28 @@ const DataSet = {
                     );
                     //중분류 초기화
                     level2Dom = "<option value=''>소분류</option>";
-                    $(`select[name=level2]`).html(level2Dom);
+                    $(`select[name=${isModalItem}level2]`).html(level2Dom);
                 } else {
                     //대분류 초기화
                     level1Dom = "<option value=''>중분류</option>";
-                    $(`select[name=level1]`).html(level1Dom);
+                    $(`select[name=${isModalItem}level1]`).html(level1Dom);
                     //중분류
                     DataSet.setOptionDom(
                         "level2",
                         consultTypeData.child.level2
                     );
                 }
-                $(`select[name=level1]`).attr("disabled", !islevel1Exist);
+                $(`select[name=${isModalItem}level1]`).attr(
+                    "disabled",
+                    !islevel1Exist
+                );
                 break;
 
             case "level1":
-                const consultType = $("select[name=consultType]").val();
+            case "modal_level1":
+                const consultType = $(
+                    `select[name=${isModalItem}consultType]`
+                ).val();
                 consultTypeData = OptionDataList["consultType"].find(
                     ({ text }) => text === consultType
                 );
@@ -154,8 +163,10 @@ const DataSet = {
         });
         // .join(",", "")
         // .replaceAll(",", "");
-        $(`select[name=${domName}]`).empty();
-        $(`select[name=${domName}]`).append(totalDom + domItem);
+        $(`select[name=${domName}], select[name=modal_${domName}]`).empty();
+        $(`select[name=${domName}], select[name=modal_${domName}]`).append(
+            totalDom + domItem
+        );
     },
 };
 
@@ -380,7 +391,18 @@ const Validation = {
 const LocalStorage = {
     getLocalStorage: (text) => {
         const localStorageItem = localStorage.getItem(text);
-        return localStorageItem ? JSON.parse(localStorageItem) : null;
+        let returnItem;
+        if (
+            !localStorageItem ||
+            localStorageItem === undefined ||
+            localStorageItem === null ||
+            localStorageItem === "undefined"
+        ) {
+            returnItem = null;
+        } else {
+            returnItem = JSON.parse(localStorageItem);
+        }
+        return returnItem;
     },
     setLocalStorage: (text, value) => {
         localStorage.setItem(text, JSON.stringify(value));
@@ -492,5 +514,27 @@ const Paging = {
         var curPage = event.data.page;
         $("#curPage").val(curPage);
         List.getConsultListApi();
+    },
+};
+
+const Modal = {
+    MODAL_SHOW_CLASS: "on",
+    init: function () {
+        const self = this;
+        $(".modal .modal_close_btn").on("click", function () {
+            $(".modal").removeClass(self.MODAL_SHOW_CLASS);
+        });
+    },
+    show: function () {
+        $(".modal").addClass(this.MODAL_SHOW_CLASS);
+    },
+    hide: function () {
+        this.modalSelectInit();
+        $(".modal").removeClass(this.MODAL_SHOW_CLASS);
+    },
+    modalSelectInit: function () {
+        $(".modal select").each(function () {
+            $(this).find("option:first").prop("selected", true);
+        });
     },
 };
