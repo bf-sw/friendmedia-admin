@@ -8,23 +8,25 @@ const ConsultStatusData = [
 const OptionDataList = {
     //채널
     channel: [
-        { seq: 1, text: "대원샵(해피톡포함)" },
+        { seq: 1, text: "대원샵" },
         { seq: 2, text: "도토리숲" },
-        { seq: 3, text: "네이버(종합)" },
-        { seq: 4, text: "네이버(블리자드)" },
-        { seq: 5, text: "엔엔마켓" },
-        { seq: 6, text: "닌텐도제휴" },
-        { seq: 7, text: "하비,지브리 제휴" },
+        { seq: 3, text: "엔엔마켓" },
+        { seq: 4, text: "마블컬렉션" },
+        { seq: 5, text: "네이버(대원미디어)" },
+        { seq: 6, text: "네이버(블리자드)" },
+        { seq: 7, text: "닌텐도제휴" },
+        { seq: 8, text: "하비/지브리제휴" },
     ],
     //인입유형
     inType: [
-        { seq: 1, text: "유선" },
-        { seq: 2, text: "비유선(채팅)" },
-        { seq: 3, text: "비유선(1:1)" },
-        { seq: 3, text: "비유선(상품문의)" },
-        { seq: 3, text: "비유선(고객문의)" },
+        { seq: 1, text: "유선(IB)" },
+        { seq: 2, text: "유선(OB)" },
+        { seq: 3, text: "비유선(채팅)" },
+        { seq: 4, text: "비유선(상품문의)" },
+        { seq: 5, text: "비유선(1:1문의)" },
+        { seq: 6, text: "비유선(고객문의)" },
     ],
-    //품목
+    //대분류/중분류/소분류
     consultType: [
         {
             seq: 1,
@@ -33,7 +35,7 @@ const OptionDataList = {
                 level1: null,
                 level2: [
                     { seq: 1, text: "정보문의" },
-                    { seq: 2, text: "적립금/쿠폰" },
+                    { seq: 2, text: "쿠폰/적립금" },
                     { seq: 3, text: "기타" },
                 ],
             },
@@ -48,34 +50,40 @@ const OptionDataList = {
                         text: "상품",
                         child: [
                             { seq: 1, text: "상품문의" },
-                            { seq: 2, text: "재고문의" },
-                            { seq: 3, text: "프로모션" },
+                            { seq: 2, text: "프로모션" },
+                            { seq: 3, text: "입고/재고" },
+                            { seq: 4, text: "기타" },
                         ],
                     },
                     {
                         seq: 2,
-                        text: "결제",
+                        text: "주문",
                         child: [
-                            { seq: 1, text: "결제방법" },
-                            { seq: 2, text: "포인트/쿠폰" },
+                            { seq: 1, text: "주문정보" },
+                            { seq: 2, text: "결제문의" },
+                            { seq: 3, text: "쿠폰/적립금" },
+                            { seq: 4, text: "기타" },
                         ],
                     },
                     {
                         seq: 3,
-                        text: "주문",
+                        text: "취소",
                         child: [
-                            { seq: 1, text: "주문서수정" },
-                            { seq: 2, text: "배송지수정" },
+                            { seq: 1, text: "결제완료" },
+                            { seq: 2, text: "상품(배송)준비중" },
+                            { seq: 3, text: "배송지연" },
+                            { seq: 4, text: "품절" },
+                            { seq: 5, text: "기타" },
                         ],
                     },
                     {
                         seq: 4,
-                        text: "취소",
+                        text: "배송",
                         child: [
-                            { seq: 1, text: "결제완료" },
-                            { seq: 2, text: "상품준비중" },
-                            { seq: 3, text: "배송중" },
-                            { seq: 4, text: "품절" },
+                            { seq: 1, text: "배송문의" },
+                            { seq: 2, text: "선/부분발송" },
+                            { seq: 3, text: "택배사고(파손, 분실)" },
+                            { seq: 4, text: "기타" },
                         ],
                     },
                     {
@@ -83,9 +91,10 @@ const OptionDataList = {
                         text: "교환",
                         child: [
                             { seq: 1, text: "고객변심" },
-                            { seq: 2, text: "불량/파손" },
-                            { seq: 3, text: "누락/오배송" },
-                            { seq: 4, text: "기타" },
+                            { seq: 2, text: "일정문의" },
+                            { seq: 3, text: "불량/파손" },
+                            { seq: 4, text: "누락/오배송" },
+                            { seq: 5, text: "기타" },
                         ],
                     },
                     {
@@ -93,18 +102,10 @@ const OptionDataList = {
                         text: "반품",
                         child: [
                             { seq: 1, text: "고객변심" },
-                            { seq: 2, text: "불량/파손" },
-                            { seq: 3, text: "누락/오배송" },
-                        ],
-                    },
-                    {
-                        seq: 7,
-                        text: "배송",
-                        child: [
-                            { seq: 1, text: "배송관련" },
-                            { seq: 2, text: "부분발송" },
-                            { seq: 3, text: "출고지연" },
-                            { seq: 4, text: "택배사고(파손, 분실)" },
+                            { seq: 2, text: "일정문의" },
+                            { seq: 3, text: "불량/파손" },
+                            { seq: 4, text: "누락/오배송" },
+                            { seq: 5, text: "기타" },
                         ],
                     },
                 ],
@@ -120,34 +121,40 @@ const OptionDataList = {
                         text: "상품",
                         child: [
                             { seq: 1, text: "상품문의" },
-                            { seq: 2, text: "재고문의" },
-                            { seq: 3, text: "프로모션" },
+                            { seq: 2, text: "프로모션" },
+                            { seq: 3, text: "입고/재고" },
+                            { seq: 4, text: "기타" },
                         ],
                     },
                     {
                         seq: 2,
-                        text: "결제",
+                        text: "주문",
                         child: [
-                            { seq: 1, text: "결제방법" },
-                            { seq: 2, text: "포인트/쿠폰" },
+                            { seq: 1, text: "주문정보" },
+                            { seq: 2, text: "결제문의" },
+                            { seq: 3, text: "쿠폰/적립금" },
+                            { seq: 4, text: "기타" },
                         ],
                     },
                     {
                         seq: 3,
-                        text: "주문",
+                        text: "취소",
                         child: [
-                            { seq: 1, text: "주문서수정" },
-                            { seq: 2, text: "배송지수정" },
+                            { seq: 1, text: "결제완료" },
+                            { seq: 2, text: "상품(배송)준비중" },
+                            { seq: 3, text: "배송지연" },
+                            { seq: 4, text: "품절" },
+                            { seq: 5, text: "기타" },
                         ],
                     },
                     {
                         seq: 4,
-                        text: "취소",
+                        text: "배송",
                         child: [
-                            { seq: 1, text: "결제완료" },
-                            { seq: 2, text: "상품준비중" },
-                            { seq: 3, text: "배송중" },
-                            { seq: 4, text: "품절" },
+                            { seq: 1, text: "배송문의" },
+                            { seq: 2, text: "선/부분발송" },
+                            { seq: 3, text: "택배사고(파손, 분실)" },
+                            { seq: 4, text: "기타" },
                         ],
                     },
                     {
@@ -155,9 +162,10 @@ const OptionDataList = {
                         text: "교환",
                         child: [
                             { seq: 1, text: "고객변심" },
-                            { seq: 2, text: "불량/파손" },
-                            { seq: 3, text: "누락/오배송" },
-                            { seq: 4, text: "기타" },
+                            { seq: 2, text: "일정문의" },
+                            { seq: 3, text: "불량/파손" },
+                            { seq: 4, text: "누락/오배송" },
+                            { seq: 5, text: "기타" },
                         ],
                     },
                     {
@@ -165,18 +173,10 @@ const OptionDataList = {
                         text: "반품",
                         child: [
                             { seq: 1, text: "고객변심" },
-                            { seq: 2, text: "불량/파손" },
-                            { seq: 3, text: "누락/오배송" },
-                        ],
-                    },
-                    {
-                        seq: 7,
-                        text: "배송",
-                        child: [
-                            { seq: 1, text: "배송관련" },
-                            { seq: 2, text: "부분발송" },
-                            { seq: 3, text: "출고지연" },
-                            { seq: 4, text: "택배사고(파손, 분실)" },
+                            { seq: 2, text: "일정문의" },
+                            { seq: 3, text: "불량/파손" },
+                            { seq: 4, text: "누락/오배송" },
+                            { seq: 5, text: "기타" },
                         ],
                     },
                 ],
@@ -184,7 +184,7 @@ const OptionDataList = {
         },
         {
             seq: 4,
-            text: "하비(완구,피규어,캐릭터)",
+            text: "하비(캐릭터/피규어/완구)",
             child: {
                 level1: [
                     {
@@ -192,34 +192,40 @@ const OptionDataList = {
                         text: "상품",
                         child: [
                             { seq: 1, text: "상품문의" },
-                            { seq: 2, text: "재고문의" },
-                            { seq: 3, text: "프로모션" },
+                            { seq: 2, text: "프로모션" },
+                            { seq: 3, text: "입고/재고" },
+                            { seq: 4, text: "기타" },
                         ],
                     },
                     {
                         seq: 2,
-                        text: "결제",
+                        text: "주문",
                         child: [
-                            { seq: 1, text: "결제방법" },
-                            { seq: 2, text: "포인트/쿠폰" },
+                            { seq: 1, text: "주문정보" },
+                            { seq: 2, text: "결제문의" },
+                            { seq: 3, text: "쿠폰/적립금" },
+                            { seq: 4, text: "기타" },
                         ],
                     },
                     {
                         seq: 3,
-                        text: "주문",
+                        text: "취소",
                         child: [
-                            { seq: 1, text: "주문서수정" },
-                            { seq: 2, text: "배송지수정" },
+                            { seq: 1, text: "결제완료" },
+                            { seq: 2, text: "상품(배송)준비중" },
+                            { seq: 3, text: "배송지연" },
+                            { seq: 4, text: "품절" },
+                            { seq: 5, text: "기타" },
                         ],
                     },
                     {
                         seq: 4,
-                        text: "취소",
+                        text: "배송",
                         child: [
-                            { seq: 1, text: "결제완료" },
-                            { seq: 2, text: "상품준비중" },
-                            { seq: 3, text: "배송중" },
-                            { seq: 4, text: "품절" },
+                            { seq: 1, text: "배송문의" },
+                            { seq: 2, text: "선/부분발송" },
+                            { seq: 3, text: "택배사고(파손, 분실)" },
+                            { seq: 4, text: "기타" },
                         ],
                     },
                     {
@@ -227,9 +233,10 @@ const OptionDataList = {
                         text: "교환",
                         child: [
                             { seq: 1, text: "고객변심" },
-                            { seq: 2, text: "불량/파손" },
-                            { seq: 3, text: "누락/오배송" },
-                            { seq: 4, text: "기타" },
+                            { seq: 2, text: "일정문의" },
+                            { seq: 3, text: "불량/파손" },
+                            { seq: 4, text: "누락/오배송" },
+                            { seq: 5, text: "기타" },
                         ],
                     },
                     {
@@ -237,18 +244,10 @@ const OptionDataList = {
                         text: "반품",
                         child: [
                             { seq: 1, text: "고객변심" },
-                            { seq: 2, text: "불량/파손" },
-                            { seq: 3, text: "누락/오배송" },
-                        ],
-                    },
-                    {
-                        seq: 7,
-                        text: "배송",
-                        child: [
-                            { seq: 1, text: "배송관련" },
-                            { seq: 2, text: "부분발송" },
-                            { seq: 3, text: "출고지연" },
-                            { seq: 4, text: "택배사고(파손, 분실)" },
+                            { seq: 2, text: "일정문의" },
+                            { seq: 3, text: "불량/파손" },
+                            { seq: 4, text: "누락/오배송" },
+                            { seq: 5, text: "기타" },
                         ],
                     },
                 ],
@@ -256,7 +255,7 @@ const OptionDataList = {
         },
         {
             seq: 5,
-            text: "카드(TCG,유희왕,뱅가드)",
+            text: "카드(TCG/유희왕/뱅가드)",
             child: {
                 level1: [
                     {
@@ -264,35 +263,40 @@ const OptionDataList = {
                         text: "상품",
                         child: [
                             { seq: 1, text: "상품문의" },
-                            { seq: 2, text: "재고문의" },
-                            { seq: 3, text: "프로모션" },
+                            { seq: 2, text: "프로모션" },
+                            { seq: 3, text: "입고/재고" },
+                            { seq: 4, text: "기타" },
                         ],
                     },
                     {
                         seq: 2,
-
-                        text: "결제",
+                        text: "주문",
                         child: [
-                            { seq: 1, text: "결제방법" },
-                            { seq: 2, text: "포인트/쿠폰" },
+                            { seq: 1, text: "주문정보" },
+                            { seq: 2, text: "결제문의" },
+                            { seq: 3, text: "쿠폰/적립금" },
+                            { seq: 4, text: "기타" },
                         ],
                     },
                     {
                         seq: 3,
-                        text: "주문",
+                        text: "취소",
                         child: [
-                            { seq: 1, text: "주문서수정" },
-                            { seq: 2, text: "배송지수정" },
+                            { seq: 1, text: "결제완료" },
+                            { seq: 2, text: "상품(배송)준비중" },
+                            { seq: 3, text: "배송지연" },
+                            { seq: 4, text: "품절" },
+                            { seq: 5, text: "기타" },
                         ],
                     },
                     {
                         seq: 4,
-                        text: "취소",
+                        text: "배송",
                         child: [
-                            { seq: 1, text: "결제완료" },
-                            { seq: 2, text: "상품준비중" },
-                            { seq: 3, text: "배송중" },
-                            { seq: 4, text: "품절" },
+                            { seq: 1, text: "배송문의" },
+                            { seq: 2, text: "선/부분발송" },
+                            { seq: 3, text: "택배사고(파손, 분실)" },
+                            { seq: 4, text: "기타" },
                         ],
                     },
                     {
@@ -300,9 +304,10 @@ const OptionDataList = {
                         text: "교환",
                         child: [
                             { seq: 1, text: "고객변심" },
-                            { seq: 2, text: "불량/파손" },
-                            { seq: 3, text: "누락/오배송" },
-                            { seq: 4, text: "기타" },
+                            { seq: 2, text: "일정문의" },
+                            { seq: 3, text: "불량/파손" },
+                            { seq: 4, text: "누락/오배송" },
+                            { seq: 5, text: "기타" },
                         ],
                     },
                     {
@@ -310,18 +315,10 @@ const OptionDataList = {
                         text: "반품",
                         child: [
                             { seq: 1, text: "고객변심" },
-                            { seq: 2, text: "불량/파손" },
-                            { seq: 3, text: "누락/오배송" },
-                        ],
-                    },
-                    {
-                        seq: 7,
-                        text: "배송",
-                        child: [
-                            { seq: 1, text: "배송관련" },
-                            { seq: 2, text: "부분발송" },
-                            { seq: 3, text: "출고지연" },
-                            { seq: 4, text: "택배사고(파손, 분실)" },
+                            { seq: 2, text: "일정문의" },
+                            { seq: 3, text: "불량/파손" },
+                            { seq: 4, text: "누락/오배송" },
+                            { seq: 5, text: "기타" },
                         ],
                     },
                 ],
@@ -329,7 +326,7 @@ const OptionDataList = {
         },
         {
             seq: 6,
-            text: "머천다이징(네이버스토어 유입)",
+            text: "머천다이징(네이버스토어)",
             child: {
                 level1: [
                     {
@@ -337,34 +334,40 @@ const OptionDataList = {
                         text: "상품",
                         child: [
                             { seq: 1, text: "상품문의" },
-                            { seq: 2, text: "재고문의" },
-                            { seq: 3, text: "프로모션" },
+                            { seq: 2, text: "프로모션" },
+                            { seq: 3, text: "입고/재고" },
+                            { seq: 4, text: "기타" },
                         ],
                     },
                     {
                         seq: 2,
-                        text: "결제",
+                        text: "주문",
                         child: [
-                            { seq: 1, text: "결제방법" },
-                            { seq: 2, text: "포인트/쿠폰" },
+                            { seq: 1, text: "주문정보" },
+                            { seq: 2, text: "결제문의" },
+                            { seq: 3, text: "쿠폰/적립금" },
+                            { seq: 4, text: "기타" },
                         ],
                     },
                     {
                         seq: 3,
-                        text: "주문",
+                        text: "취소",
                         child: [
-                            { seq: 1, text: "주문서수정" },
-                            { seq: 2, text: "배송지수정" },
+                            { seq: 1, text: "결제완료" },
+                            { seq: 2, text: "상품(배송)준비중" },
+                            { seq: 3, text: "배송지연" },
+                            { seq: 4, text: "품절" },
+                            { seq: 5, text: "기타" },
                         ],
                     },
                     {
                         seq: 4,
-                        text: "취소",
+                        text: "배송",
                         child: [
-                            { seq: 1, text: "결제완료" },
-                            { seq: 2, text: "상품준비중" },
-                            { seq: 3, text: "배송중" },
-                            { seq: 4, text: "품절" },
+                            { seq: 1, text: "배송문의" },
+                            { seq: 2, text: "선/부분발송" },
+                            { seq: 3, text: "택배사고(파손, 분실)" },
+                            { seq: 4, text: "기타" },
                         ],
                     },
                     {
@@ -372,9 +375,10 @@ const OptionDataList = {
                         text: "교환",
                         child: [
                             { seq: 1, text: "고객변심" },
-                            { seq: 2, text: "불량/파손" },
-                            { seq: 3, text: "누락/오배송" },
-                            { seq: 4, text: "기타" },
+                            { seq: 2, text: "일정문의" },
+                            { seq: 3, text: "불량/파손" },
+                            { seq: 4, text: "누락/오배송" },
+                            { seq: 5, text: "기타" },
                         ],
                     },
                     {
@@ -382,18 +386,10 @@ const OptionDataList = {
                         text: "반품",
                         child: [
                             { seq: 1, text: "고객변심" },
-                            { seq: 2, text: "불량/파손" },
-                            { seq: 3, text: "누락/오배송" },
-                        ],
-                    },
-                    {
-                        seq: 7,
-                        text: "배송",
-                        child: [
-                            { seq: 1, text: "배송관련" },
-                            { seq: 2, text: "부분발송" },
-                            { seq: 3, text: "출고지연" },
-                            { seq: 4, text: "택배사고(파손, 분실)" },
+                            { seq: 2, text: "일정문의" },
+                            { seq: 3, text: "불량/파손" },
+                            { seq: 4, text: "누락/오배송" },
+                            { seq: 5, text: "기타" },
                         ],
                     },
                 ],
@@ -405,15 +401,11 @@ const OptionDataList = {
             child: {
                 level1: null,
                 level2: [
-                    { seq: 1, text: "관련없음" },
-                    { seq: 2, text: "마케팅, 입점 문의" },
-                    { seq: 3, text: "대원샵" },
-                    { seq: 4, text: "도토리숲" },
-                    { seq: 5, text: "매장안내" },
-                    { seq: 6, text: "브랜드스토어" },
-                    { seq: 7, text: "엔엔마켓" },
-                    { seq: 8, text: "제휴몰" },
-                    { seq: 9, text: "기타" },
+                    { seq: 1, text: "입점/제휴/광고" },
+                    { seq: 2, text: "매장문의" },
+                    { seq: 3, text: "건의사항" },
+                    { seq: 4, text: "오인입/관련없음" },
+                    { seq: 5, text: "기타" },
                 ],
             },
         },

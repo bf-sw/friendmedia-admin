@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/head.jsp" %>
 <!-- 개별 script -->
-<script src="/resources/js/regist.js?v=202311141614"></script>
+<script src="/resources/js/regist.js?v=20240116"></script>
 <main class="list_page">
      <%@ include file="/WEB-INF/views/common/navbar.jsp" %>
      <form id="consultForm">
@@ -59,7 +59,6 @@
 	                                    type="text"
 	                                    id="phone"
 	                                    name="phone"
-										maxlength="11"
 										placeholder="연락처를 입력하세요" 
 	                                />
 	                            </td>
@@ -163,7 +162,7 @@
 	                                            selected
 	                                            disabled
 	                                        >
-	                                            품목
+											대분류
 	                                        </option>
 	                                    </select>
 	                                    <select required id="level1" name="level1">
@@ -172,7 +171,7 @@
 	                                            selected
 	                                            disabled
 	                                        >
-	                                            대분류
+											중분류
 	                                        </option>
 	                                    </select>
 	                                    <select required id="level2" name="level2">
@@ -181,10 +180,21 @@
 	                                            selected
 	                                            disabled
 	                                        >
-	                                            중분류
+	                                            소분류
 	                                        </option>
 	                                    </select>
 	                                </div>
+	                            </td>
+	                        </tr>
+	                        <tr>
+	                            <th>상품명</th>
+	                            <td colspan="5">
+									<input
+									type="text"
+									id="goodsNm"
+									name="goodsNm"
+									placeholder="상품명을 입력하세요"
+								/>
 	                            </td>
 	                        </tr>
 	                        <tr>
