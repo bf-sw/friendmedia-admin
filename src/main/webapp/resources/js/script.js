@@ -522,7 +522,7 @@ const Modal = {
     init: function () {
         const self = this;
         $(".modal .modal_close_btn").on("click", function () {
-            $(".modal").removeClass(self.MODAL_SHOW_CLASS);
+            self.hide();
         });
     },
     show: function () {
@@ -535,6 +535,7 @@ const Modal = {
     modalSelectInit: function () {
         $(".modal select").each(function () {
             $(this).find("option:first").prop("selected", true);
+            $(this).attr("disabled", false);
         });
     },
 };
