@@ -193,6 +193,7 @@
 									type="text"
 									id="goodsNm"
 									name="goodsNm"
+									style="width: 100%;"
 									placeholder="상품명을 입력하세요"
 								/>
 	                            </td>
