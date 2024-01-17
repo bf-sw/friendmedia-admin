@@ -214,14 +214,7 @@ const Regist = {
             isValid = false;
             return;
         }
-        //인입유형
-        const goodsNm = $("input[name=goodsNm]");
-        if (Validation.isEmpty(goodsNm.val())) {
-            alert("상품명을 입력해 주세요.");
-            goodsNm.focus();
-            isValid = false;
-            return;
-        }
+
         //상담결과
         const consultStatus = $("select[name=consultStatus]");
         if (Validation.isEmpty(consultStatus.val())) {

@@ -436,7 +436,11 @@ const List = {
         });
         for (let i in modifyParams) {
             const item = modifyParams[i];
-            if (!(!item || item === "" || item === "0")) {
+            if (i !== "level1") {
+                if (!(!item || item === "" || item === "0")) {
+                    data[i] = item;
+                }
+            } else {
                 data[i] = item;
             }
         }
