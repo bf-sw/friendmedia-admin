@@ -214,6 +214,14 @@ const Regist = {
             isValid = false;
             return;
         }
+        //인입유형
+        const goodsNm = $("input[name=goodsNm]");
+        if (Validation.isEmpty(goodsNm.val())) {
+            alert("상품명을 입력해 주세요.");
+            goodsNm.focus();
+            isValid = false;
+            return;
+        }
         //상담결과
         const consultStatus = $("select[name=consultStatus]");
         if (Validation.isEmpty(consultStatus.val())) {
@@ -233,7 +241,7 @@ const Regist = {
         //상담유형 - 중분류
         const level2 = $("select[name=level2]");
         if (Validation.isEmpty(level2.val())) {
-            alert("중분류를 선택해 주세요.");
+            alert("소분류를 선택해 주세요.");
             level2.focus();
             isValid = false;
             return;
@@ -276,6 +284,7 @@ const Regist = {
                             ? ""
                             : $("select[name=level1]").val(),
                     level2: $("select[name=level2]").val(),
+                    goodsNm: $("input[name=goodsNm]").val(),
                     content: $("textarea[name=content]").val(),
                     consultDate: $("input[name=consultDate]").val(),
                     complaint: $("input[name=complaint]").is(":checked"),

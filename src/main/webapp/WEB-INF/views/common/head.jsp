@@ -25,11 +25,11 @@ pageEncoding="UTF-8"%>
 
         <script
             type="text/javascript"
-            src="/resources/js/data.js?v=20231114"
+            src="/resources/js/data.js?v=202401150414"
         ></script>
         <script
             type="text/javascript"
-            src="/resources/js/script.js?v=20231106"
+            src="/resources/js/script.js?v=20240117"
         ></script>
     </head>
     <body>

@@ -1,9 +1,12 @@
 const List = {
+    FM_SEARCH_PARAMS: "FM_SEARCH_PARAMS",
     init: function () {
         this.initEvent();
         this.initContent();
     },
     initEvent: function () {
+        const self = this;
+
         //checkbox
         //전체선택
         $("#totalSelect").on("click", function (e) {
@@ -23,32 +26,52 @@ const List = {
 
         //init btn
         $("#searchParamInitBtn").on("click", function () {
-            List.searchParamInit();
+            self.searchParamInit();
         });
         //search btn
         $("#searchBtn").on("click", function () {
             $("#curPage").val(0);
-            List.getConsultListApi();
+            self.getConsultListApi();
         });
         $(".search_category input[type=text]").on("keydown", function (e) {
             if (e.key === "Enter") {
                 $("#curPage").val(0);
-                List.getConsultListApi();
+                self.getConsultListApi();
             }
         });
         //excel download
         $("#downloadExcelBtn").on("click", function () {
-            List.downloadExcel();
+            self.downloadExcel();
         });
         //multi delete btn
         $("#deleteMultiConsultBtn").on("click", function () {
             const selectedItems = $(".list_checkbox:checked");
             if (selectedItems.length > 0) {
                 if (confirm("삭제하시겠습니까?")) {
-                    List.deleteConsult(selectedItems);
+                    self.deleteConsult(selectedItems);
                 }
             } else {
                 alert("삭제할 상담을 선택해 주세요.");
+            }
+        });
+        //multi modify btn
+        $("#modifyBtn").on("click", function () {
+            const selectedItems = $(".list_checkbox:checked");
+            if (selectedItems.length > 0) {
+                Modal.show();
+            } else {
+                alert("수정할 상담을 선택해 주세요.");
+            }
+        });
+
+        //modal btn
+        $("#initModifyConsultBtn").on("click", function () {
+            Modal.modalSelectInit();
+        });
+        $("#modifyConsultBtn").on("click", function () {
+            const selectedItems = $(".list_checkbox:checked");
+            if (confirm("수정하시겠습니까?")) {
+                self.modifyConsult(selectedItems);
             }
         });
     },
@@ -57,6 +80,9 @@ const List = {
 
         //datepicker
         DatePicker.init($("#startDate, #endDate"));
+
+        //상담 parameter 저장 있을 시 세팅
+        this.setSearchParams();
 
         //처음 목록 불러오기
         List.getConsultListApi();
@@ -67,12 +93,56 @@ const List = {
             isUserAuthorized === "true" ? "inline" : "none"
         );
     },
+    setSearchParams: function () {
+        const self = this;
+
+        const searchParams =
+            LocalStorage.getLocalStorage(self.FM_SEARCH_PARAMS) || {};
+        console.log("searchParams", searchParams);
+        for (let i in searchParams) {
+            const itemVal = searchParams[i];
+            const itemDom = $(`[name=${i}]`);
+            // console.log(i, itemDom, itemDom.prop("tagName"), itemVal);
+            switch (itemDom.prop("tagName")) {
+                case "INPUT":
+                    if (i === "totalSearch") {
+                        $(`[name=${i}]`).attr("checked", itemVal);
+                    } else if (i.includes("Date")) {
+                        if (Validation.isEmpty(itemVal)) {
+                            DatePicker.init(itemDom);
+                        } else {
+                            itemDom.val();
+                        }
+                    } else {
+                        itemDom.val(itemVal);
+                    }
+                    break;
+                case "SELECT":
+                    if (!Validation.isEmpty(itemVal)) {
+                        itemDom.val(itemVal);
+                        $(`[name='${i}'] option[value='${itemVal}']`).attr(
+                            "selected",
+                            true
+                        );
+                        $(`[name='${i}']`).trigger("change");
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+        }
+    },
+
     searchParamInit: function () {
         $(".search_category input, .search_category select").val("");
         DataSet.init();
         DatePicker.init($("#startDate, #endDate"));
+        LocalStorage.deleteLocalStorage(this.FM_SEARCH_PARAMS);
     },
     getSearchParams: function (type) {
+        const self = this;
+
         const isDateRangeNull = $("input[name=totalSearch]").is(":checked");
 
         const counselorNm = $("input[name=counselorNm]").val();
@@ -117,6 +187,11 @@ const List = {
         if (consultStatus !== "") {
             params.consultStatus = consultStatus;
         }
+        //검색어 저장
+        LocalStorage.setLocalStorage(self.FM_SEARCH_PARAMS, {
+            ...params,
+            totalSearch: $("input[name=totalSearch]:checked").is(":checked"),
+        });
         return params;
     },
 
@@ -179,6 +254,7 @@ const List = {
                         name,
                         orderNo,
                         phone,
+                        content,
                     },
                     idx
                 ) => {
@@ -186,6 +262,7 @@ const List = {
                         ConsultStatusData.find(
                             (item) => item.value === consultStatus
                         )?.name || "";
+
                     return `<tr style="cursor:pointer;" data-id=${id}>
                         <td class="checkbox_td">
                             <label class="basic_checkbox table_checkbox">
@@ -204,9 +281,16 @@ const List = {
                         <td>${consultType}</td>
                         <td>${level1 || "-"}</td>
                         <td>${level2}</td>
+                        <td>
+                        ${
+                            content.length >= 30
+                                ? content.substring(0, 29) + "..."
+                                : content
+                        }
+                        </td>
                         <td>${consultDate}</td>
-                        <td>프랜드미디어</td>
                         <td>${counselorNm}</td>
+                        <td>프랜드미디어</td>
                     </tr>`;
                 }
             );
@@ -324,6 +408,62 @@ const List = {
                 if (res.status === 200) {
                     alert("삭제되었습니다.");
                     List.getConsultListApi();
+                } else {
+                    alert(res.message);
+                }
+            },
+            error: function (res) {
+                alert(res.responseJSON.message);
+            },
+            complete: function () {
+                Loading.finishLoading();
+            },
+        });
+    },
+    modifyConsult: function (selectedItems) {
+        let url = `${API_URL}/consultation/v1/multi/update`;
+        const modifyParams = {
+            consultStatus: $("select[name=modal_consultStatus]").val(),
+            channel: $("select[name=modal_channel]").val(),
+            inType: $("select[name=modal_inType]").val(),
+            consultType: $("select[name=modal_consultType]").val(),
+            level1: $("select[name=modal_level1]").val(),
+            level2: $("select[name=modal_level2]").val(),
+        };
+        let data = { ids: [] };
+        $.each(selectedItems, function (_, item) {
+            data.ids.push($(item).data("id"));
+        });
+        for (let i in modifyParams) {
+            const item = modifyParams[i];
+            if (!(!item || item === "" || item === "0")) {
+                data[i] = item;
+            }
+        }
+        console.log(modifyParams, data);
+
+        $.ajax({
+            method: "POST",
+            url,
+            data: JSON.stringify(data),
+            dataType: "json",
+            contentType: "application/json",
+            async: false,
+            cache: false,
+            beforeSend: function (xhr) {
+                Loading.startLoading();
+                xhr.setRequestHeader(
+                    "Authorization",
+                    `${$("input[id=tokenType]").val()} ${$(
+                        "input[id=authCode]"
+                    ).val()}`
+                );
+            },
+            success: function (res) {
+                if (res.status === 200) {
+                    alert("수정되었습니다.");
+                    List.getConsultListApi();
+                    Modal.hide();
                 } else {
                     alert(res.message);
                 }
